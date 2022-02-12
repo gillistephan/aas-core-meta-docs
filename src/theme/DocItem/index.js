@@ -18,115 +18,103 @@ import { useActivePlugin, useVersions } from "@theme/hooks/useDocs";
 import useWindowSize from "@theme/hooks/useWindowSize";
 
 function DocItem(props) {
-	const { content: DocContent, versionMetadata } = props;
-	const { metadata, frontMatter } = DocContent;
-	const {
-		image,
-		keywords,
-		hide_title: hideTitle,
-		hide_table_of_contents: hideTableOfContents,
-	} = frontMatter;
-	const {
-		description,
-		title,
+  const { content: DocContent, versionMetadata } = props;
+  const { metadata, frontMatter } = DocContent;
+  const {
+    image,
+    keywords,
+    hide_title: hideTitle,
+    hide_table_of_contents: hideTableOfContents,
+  } = frontMatter;
+  const {
+    description,
+    title,
 
-		lastUpdatedAt,
-		formattedLastUpdatedAt,
-		lastUpdatedBy,
-	} = metadata;
-	const { pluginId } = useActivePlugin({
-		failfast: true,
-	});
-	const versions = useVersions(pluginId); // If site is not versioned or only one version is included
-	// we don't show the version badge
-	// See https://github.com/facebook/docusaurus/issues/3362
+    lastUpdatedAt,
+    formattedLastUpdatedAt,
+    lastUpdatedBy,
+  } = metadata;
+  const { pluginId } = useActivePlugin({
+    failfast: true,
+  });
+  const versions = useVersions(pluginId); // If site is not versioned or only one version is included
+  // we don't show the version badge
+  // See https://github.com/facebook/docusaurus/issues/3362
 
-	const showVersionBadge = versions.length > 1; // We only add a title if:
-	// - user asks to hide it with frontmatter
-	// - the markdown content does not already contain a top-level h1 heading
+  const showVersionBadge = versions.length > 1; // We only add a title if:
+  // - user asks to hide it with frontmatter
+  // - the markdown content does not already contain a top-level h1 heading
 
-	const shouldAddTitle =
-		!hideTitle && typeof DocContent.contentTitle === "undefined";
+  const shouldAddTitle =
+    !hideTitle && typeof DocContent.contentTitle === "undefined";
 
-	const windowSize = useWindowSize();
+  const windowSize = useWindowSize();
 
-	const renderTocMobile =
-		!hideTableOfContents &&
-		DocContent.toc &&
-		(windowSize === "mobile" || windowSize === "ssr");
+  const renderTocMobile =
+    !hideTableOfContents &&
+    DocContent.toc &&
+    (windowSize === "mobile" || windowSize === "ssr");
 
-	const renderTocDesktop =
-		!hideTableOfContents &&
-		DocContent.toc &&
-		(windowSize === "desktop" || windowSize === "ssr");
+  const renderTocDesktop =
+    !hideTableOfContents &&
+    DocContent.toc &&
+    (windowSize === "desktop" || windowSize === "ssr");
 
-	return (
-		<>
-			<Seo
-				{...{
-					title,
-					description,
-					keywords,
-					image,
-				}}
-			/>
+  return (
+    <>
+      <Seo
+        {...{
+          title,
+          description,
+          keywords,
+          image,
+        }}
+      />
 
-			<div className="mx-auto px-8">
-				<DocVersionBanner versionMetadata={versionMetadata} />
-				<article>
-					{showVersionBadge && (
-						<div>
-							<span className="badge badge--secondary">
-								Version: {versionMetadata.label}
-							</span>
-						</div>
-					)}
-					<div className="grid-cols-[minmax(900px,_1fr)_14rem] md:grid">
-						<div className="">
-							<article className="md:prose-md prose mx-auto my-12 max-w-full px-6 lg:prose-lg">
-								{renderTocMobile && (
-									<TOCCollapsible
-										toc={DocContent.toc}
-										className={clsx("mb-10 p-3 text-lg", styles.tocMobile)}
-									/>
-								)}
-								{/*
-                   Title can be declared inside md content or declared through frontmatter and added manually
-                   To make both cases consistent, the added title is added under the same div.markdown block
-                   See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
-                   */}
-								{shouldAddTitle && <MainHeading>{title}</MainHeading>}
-								<DocContent />
-							</article>
+      <div className="mx-auto px-8">
+        <DocVersionBanner versionMetadata={versionMetadata} />
+        <article>
+          <div className="grid-cols-[minmax(900px,_1fr)_14rem] md:grid">
+            <div className="">
+              <article className="md:prose-md prose mx-auto my-12 max-w-full px-6 lg:prose-lg">
+                {renderTocMobile && (
+                  <TOCCollapsible
+                    toc={DocContent.toc}
+                    className={clsx("mb-10 p-3 text-lg", styles.tocMobile)}
+                  />
+                )}
+                {shouldAddTitle && <MainHeading>{title}</MainHeading>}
+                <DocContent />
+              </article>
 
-							<div>
-								{(lastUpdatedAt || lastUpdatedBy) && (
-									<div>
-										{(lastUpdatedAt || lastUpdatedBy) && (
-											<LastUpdated
-												lastUpdatedAt={lastUpdatedAt}
-												formattedLastUpdatedAt={formattedLastUpdatedAt}
-												lastUpdatedBy={lastUpdatedBy}
-											/>
-										)}
-									</div>
-								)}
-								<div className="margin-vert--lg">
-									<DocPaginator metadata={metadata} />
-								</div>
-							</div>
-						</div>
+              <div>
+                {(lastUpdatedAt || lastUpdatedBy) && (
+                  <div>
+                    {(lastUpdatedAt || lastUpdatedBy) && (
+                      <LastUpdated
+                        lastUpdatedAt={lastUpdatedAt}
+                        formattedLastUpdatedAt={formattedLastUpdatedAt}
+                        lastUpdatedBy={lastUpdatedBy}
+                      />
+                    )}
+                  </div>
+                )}
+                <div className="margin-vert--lg">
+                  <DocPaginator metadata={metadata} />
+                </div>
+              </div>
+            </div>
 
-						{renderTocDesktop && (
-							<div className="">
-								<TOC toc={DocContent.toc} />
-							</div>
-						)}
-					</div>
-				</article>
-			</div>
-		</>
-	);
+            {renderTocDesktop && (
+              <div className="">
+                <TOC toc={DocContent.toc} />
+              </div>
+            )}
+          </div>
+        </article>
+      </div>
+    </>
+  );
 }
 
 export default DocItem;
