@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc02",
     }
     
-                },{
+                }, {
                         name: "Version",
                         isRequired: false,
                         typeDef: 
@@ -31,7 +31,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Revision",
                         isRequired: false,
                         typeDef: 

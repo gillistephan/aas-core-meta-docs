@@ -33,7 +33,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "extension-v3rc01",
     }
     
-                    },{
+                    }, {
                     name: "IdShort",
                     isRequired: true,
                     typeDef: 
@@ -44,7 +44,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc01",
     }
     
-                },{
+                }, {
                         name: "DisplayName",
                         isRequired: false,
                         typeDef: 
@@ -55,7 +55,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Category",
                         isRequired: false,
                         typeDef: 
@@ -66,7 +66,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Description",
                         isRequired: false,
                         typeDef: 
@@ -77,7 +77,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Qualifiers",
                         isRequired: false,
                         typeDef: 
@@ -88,7 +88,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "constraint-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "DataSpecifications",
                         isRequired: false,
                         typeDef: 
@@ -99,7 +99,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Kind",
                         isRequired: false,
                         typeDef: 
@@ -110,7 +110,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "modeling-kind-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "SemanticId",
                         isRequired: false,
                         typeDef: 

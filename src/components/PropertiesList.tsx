@@ -6,7 +6,6 @@ import type { TypeDefProps } from "./TypeDef";
 import TypeDef from "./TypeDef";
 
 type ListProps = {
-  listName: string;
   items: Array<ListItemProps>;
 };
 
@@ -46,7 +45,7 @@ const PropertiesListItem: FC<ListItemProps> = ({
   );
 };
 
-const PropertiesList: FC<ListProps> = ({ listName, items }) => {
+const PropertiesList: FC<ListProps> = ({ items }) => {
   return (
     <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
       <dl className="sm:divide-y sm:divide-gray-200">

@@ -23,7 +23,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "key-v3rc02",
     }
     
-                },{
+                }, {
                         name: "ReferredSemanticId",
                         isRequired: false,
                         typeDef: 

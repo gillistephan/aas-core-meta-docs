@@ -18,7 +18,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "UnitSymbol",
                         isRequired: false,
                         typeDef: 
@@ -29,7 +29,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Definition",
                         isRequired: false,
                         typeDef: 
@@ -40,7 +40,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "lang-string-set-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "SiNotation",
                         isRequired: false,
                         typeDef: 
@@ -51,7 +51,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "DinNotation",
                         isRequired: false,
                         typeDef: 
@@ -62,7 +62,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "EceName",
                         isRequired: false,
                         typeDef: 
@@ -73,7 +73,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "EceCode",
                         isRequired: false,
                         typeDef: 
@@ -84,7 +84,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "NistName",
                         isRequired: false,
                         typeDef: 
@@ -95,7 +95,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "SourceOfDefinition",
                         isRequired: false,
                         typeDef: 
@@ -106,7 +106,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "ConversionFactor",
                         isRequired: false,
                         typeDef: 
@@ -117,7 +117,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "RegistrationAuthorityId",
                         isRequired: false,
                         typeDef: 
@@ -128,7 +128,7 @@ sidebar_label: DataSpecificationPhysicalUnit
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Supplier",
                         isRequired: false,
                         typeDef: 

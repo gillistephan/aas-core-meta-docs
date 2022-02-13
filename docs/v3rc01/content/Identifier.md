@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "identifier-type-v3rc01",
     }
     
-                },{
+                }, {
                     name: "Id",
                     isRequired: true,
                     typeDef: 

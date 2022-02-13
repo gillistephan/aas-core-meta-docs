@@ -22,7 +22,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                },{
+                }, {
                         name: "TargetObjectAttributes",
                         isRequired: false,
                         typeDef: 
@@ -33,7 +33,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "object-attributes-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Permissions",
                         isRequired: false,
                         typeDef: 

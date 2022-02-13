@@ -23,7 +23,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: null,
     }
     
-                },{
+                }, {
                         name: "InternalInformationPoints",
                         isRequired: false,
                         typeDef: 

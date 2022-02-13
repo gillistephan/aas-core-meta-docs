@@ -6,32 +6,20 @@ const visit = require("unist-util-visit");
 module.exports = {
   title: "AAS-Core-Meta Documentation",
   tagline: "AAS-Core-Meta Documentation",
-  url: "https://docs.<tbd>.io",
-  baseUrl: "/",
+  url: "https://gillistephan.github.io",
+  baseUrl: "/aas-core-meta-docs/",
   onBrokenLinks: "warn",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.png",
-  organizationName: "ass-core-meta",
-  projectName: "aas-core-meta-documentation",
+  organizationName: "gillistephan",
+  projectName: "aas-core-meta-docs",
+  deploymentBranch: "deploy",
+  trailingSlash: false,
   plugins: ["docusaurus-tailwindcss-loader"],
   themeConfig: {
     // Colormode
     colorMode: {
-      defaultMode: "dark",
-      disableSwitch: false,
-      switchConfig: {
-        darkIcon: "🌙",
-        darkIconStyle: {
-          content: `url(/img/moon.svg)`,
-          transform: "scale(2)",
-          margin: "0 0.2rem",
-        },
-        lightIcon: "\u{1F602}",
-        lightIconStyle: {
-          content: `url(/img/sun.svg)`,
-          transform: "scale(2)",
-        },
-      },
+      disableSwitch: true,
     },
     // Navbar
     navbar: {

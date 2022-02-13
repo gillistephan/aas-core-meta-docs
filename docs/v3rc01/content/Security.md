@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "access-control-policy-points-v3rc01",
     }
     
-                },{
+                }, {
                         name: "Certificates",
                         isRequired: false,
                         typeDef: 
@@ -31,7 +31,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "certificate-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "RequiredCertificatesExtension",
                         isRequired: false,
                         typeDef: 

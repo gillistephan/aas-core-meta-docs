@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "policy-administration-point-v3rc01",
     }
     
-                },{
+                }, {
                     name: "PolicyDecisionPoint",
                     isRequired: true,
                     typeDef: 
@@ -31,7 +31,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "policy-decision-point-v3rc01",
     }
     
-                },{
+                }, {
                     name: "PolicyEnforcementPoint",
                     isRequired: true,
                     typeDef: 
@@ -42,7 +42,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "policy-enforcement-points-v3rc01",
     }
     
-                },{
+                }, {
                         name: "PolicyInformationPoints",
                         isRequired: false,
                         typeDef: 

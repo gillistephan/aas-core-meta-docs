@@ -21,7 +21,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "access-permission-rule-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "SelectableSubjectAttributes",
                         isRequired: false,
                         typeDef: 
@@ -32,7 +32,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                    },{
+                    }, {
                     name: "DefaultSubjectAttributes",
                     isRequired: true,
                     typeDef: 
@@ -43,7 +43,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                },{
+                }, {
                     name: "SelectablePermissions",
                     isRequired: true,
                     typeDef: 
@@ -54,7 +54,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                },{
+                }, {
                     name: "DefaultPermissions",
                     isRequired: true,
                     typeDef: 
@@ -65,7 +65,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                },{
+                }, {
                         name: "SelectableEnvironmentAttributes",
                         isRequired: false,
                         typeDef: 
@@ -76,7 +76,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "DefaultEnvironmentAttributes",
                         isRequired: false,
                         typeDef: 

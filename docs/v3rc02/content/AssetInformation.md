@@ -28,7 +28,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "asset-kind-v3rc02",
     }
     
-                },{
+                }, {
                         name: "GlobalAssetId",
                         isRequired: false,
                         typeDef: 
@@ -39,7 +39,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "SpecificAssetId",
                         isRequired: false,
                         typeDef: 
@@ -50,7 +50,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "identifier-key-value-pair-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "DefaultThumbnail",
                         isRequired: false,
                         typeDef: 

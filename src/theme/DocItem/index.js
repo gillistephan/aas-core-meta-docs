@@ -76,7 +76,7 @@ function DocItem(props) {
         <article>
           <div className="grid-cols-[minmax(900px,_1fr)_14rem] md:grid">
             <div className="">
-              <article className="md:prose-md prose lg:prose-lg mx-auto my-12 max-w-full px-6">
+              <article className="md:prose-md prose mx-auto my-12 max-w-full px-6 lg:prose-lg">
                 {renderTocMobile && (
                   <TOCCollapsible
                     toc={DocContent.toc}

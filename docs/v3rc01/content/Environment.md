@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "asset-administration-shell-v3rc01",
     }
     
-                },{
+                }, {
                     name: "Assets",
                     isRequired: true,
                     typeDef: 
@@ -31,7 +31,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "asset-v3rc01",
     }
     
-                },{
+                }, {
                     name: "Submodels",
                     isRequired: true,
                     typeDef: 
@@ -42,7 +42,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "submodel-v3rc01",
     }
     
-                },{
+                }, {
                     name: "ConceptDescriptions",
                     isRequired: true,
                     typeDef: 

@@ -21,7 +21,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc02",
     }
     
-                    },{
+                    }, {
                     name: "Type",
                     isRequired: true,
                     typeDef: 
@@ -32,7 +32,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                },{
+                }, {
                     name: "ValueType",
                     isRequired: true,
                     typeDef: 
@@ -43,7 +43,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "data-type-def-v3rc02",
     }
     
-                },{
+                }, {
                         name: "Value",
                         isRequired: false,
                         typeDef: 
@@ -54,7 +54,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "ValueId",
                         isRequired: false,
                         typeDef: 

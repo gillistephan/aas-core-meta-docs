@@ -35,7 +35,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc02",
     }
     
-                },{
+                }, {
                     name: "Extensions",
                     isRequired: true,
                     typeDef: 
@@ -46,7 +46,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "extension-v3rc02",
     }
     
-                },{
+                }, {
                         name: "IdShort",
                         isRequired: false,
                         typeDef: 
@@ -57,7 +57,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "DisplayName",
                         isRequired: false,
                         typeDef: 
@@ -68,7 +68,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Category",
                         isRequired: false,
                         typeDef: 
@@ -79,7 +79,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Description",
                         isRequired: false,
                         typeDef: 
@@ -90,7 +90,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Kind",
                         isRequired: false,
                         typeDef: 
@@ -101,7 +101,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "modeling-kind-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "SemanticId",
                         isRequired: false,
                         typeDef: 
@@ -112,7 +112,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc02",
     }
     
-                    },{
+                    }, {
                     name: "Qualifiers",
                     isRequired: true,
                     typeDef: 
@@ -123,7 +123,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "constraint-v3rc02",
     }
     
-                },{
+                }, {
                         name: "Translatable",
                         isRequired: false,
                         typeDef: 
@@ -134,7 +134,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "ValueId",
                         isRequired: false,
                         typeDef: 

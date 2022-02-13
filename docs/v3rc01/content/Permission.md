@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                },{
+                }, {
                     name: "KindOfPermission",
                     isRequired: true,
                     typeDef: 

@@ -1,6 +1,5 @@
 from ast import Param
 from importlib.resources import path
-from ntpath import join
 import pathlib
 import sys
 import argparse
@@ -222,7 +221,7 @@ def _generate_properties_list_for_class(
     if len(errors) > 0:
         return None, errors
 
-    writer.write(",".join(blocks))
+    writer.write(", ".join(blocks))
     writer.write("]} /> \n \n")
 
     return writer.getvalue(), None

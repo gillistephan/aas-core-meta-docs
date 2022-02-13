@@ -22,7 +22,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "extension-v3rc02",
     }
     
-                },{
+                }, {
                         name: "IdShort",
                         isRequired: false,
                         typeDef: 
@@ -33,7 +33,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "DisplayName",
                         isRequired: false,
                         typeDef: 
@@ -44,7 +44,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Category",
                         isRequired: false,
                         typeDef: 
@@ -55,7 +55,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Description",
                         isRequired: false,
                         typeDef: 
@@ -66,7 +66,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc02",
     }
     
-                    },{
+                    }, {
                     name: "Id",
                     isRequired: true,
                     typeDef: 
@@ -77,7 +77,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                },{
+                }, {
                         name: "Administration",
                         isRequired: false,
                         typeDef: 

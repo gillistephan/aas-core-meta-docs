@@ -28,7 +28,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "asset-kind-v3rc01",
     }
     
-                },{
+                }, {
                         name: "GlobalAssetId",
                         isRequired: false,
                         typeDef: 
@@ -39,7 +39,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "SpecificAssetIds",
                         isRequired: false,
                         typeDef: 
@@ -50,7 +50,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "identifier-key-value-pair-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "BillOfMaterial",
                         isRequired: false,
                         typeDef: 
@@ -61,7 +61,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "DefaultThumbnail",
                         isRequired: false,
                         typeDef: 

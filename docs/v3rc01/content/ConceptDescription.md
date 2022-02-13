@@ -29,7 +29,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Extension",
                         isRequired: false,
                         typeDef: 
@@ -40,7 +40,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "extension-v3rc01",
     }
     
-                    },{
+                    }, {
                     name: "IdShort",
                     isRequired: true,
                     typeDef: 
@@ -51,7 +51,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc01",
     }
     
-                },{
+                }, {
                         name: "DisplayName",
                         isRequired: false,
                         typeDef: 
@@ -62,7 +62,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Category",
                         isRequired: false,
                         typeDef: 
@@ -73,7 +73,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Description",
                         isRequired: false,
                         typeDef: 
@@ -84,7 +84,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc01",
     }
     
-                    },{
+                    }, {
                         name: "Administration",
                         isRequired: false,
                         typeDef: 
@@ -95,7 +95,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "administrative-information-v3rc01",
     }
     
-                    },{
+                    }, {
                     name: "Identification",
                     isRequired: true,
                     typeDef: 
@@ -106,7 +106,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "identifier-v3rc01",
     }
     
-                },{
+                }, {
                         name: "IsCaseOf",
                         isRequired: false,
                         typeDef: 

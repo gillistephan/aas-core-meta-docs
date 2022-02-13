@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "key-elements-v3rc02",
     }
     
-                },{
+                }, {
                     name: "Value",
                     isRequired: true,
                     typeDef: 

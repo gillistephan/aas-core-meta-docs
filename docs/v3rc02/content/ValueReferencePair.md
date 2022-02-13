@@ -21,7 +21,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                },{
+                }, {
                     name: "ValueId",
                     isRequired: true,
                     typeDef: 

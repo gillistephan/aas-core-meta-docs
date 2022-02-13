@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "policy-administration-point-v3rc01",
     }
     
-                },{
+                }, {
                     name: "BlobCertificate",
                     isRequired: true,
                     typeDef: 
@@ -31,7 +31,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "blob-v3rc01",
     }
     
-                },{
+                }, {
                     name: "LastCertificate",
                     isRequired: true,
                     typeDef: 
@@ -42,7 +42,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: null,
     }
     
-                },{
+                }, {
                         name: "ContainedExtension",
                         isRequired: false,
                         typeDef: 

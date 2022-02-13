@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: null,
     }
     
-                },{
+                }, {
                         name: "LocalAccessControl",
                         isRequired: false,
                         typeDef: 

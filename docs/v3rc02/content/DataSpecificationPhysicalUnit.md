@@ -20,7 +20,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "UnitSymbol",
                         isRequired: false,
                         typeDef: 
@@ -31,7 +31,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Definition",
                         isRequired: false,
                         typeDef: 
@@ -42,7 +42,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "SiNotation",
                         isRequired: false,
                         typeDef: 
@@ -53,7 +53,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "DinNotation",
                         isRequired: false,
                         typeDef: 
@@ -64,7 +64,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "EceName",
                         isRequired: false,
                         typeDef: 
@@ -75,7 +75,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "EceCode",
                         isRequired: false,
                         typeDef: 
@@ -86,7 +86,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "NistName",
                         isRequired: false,
                         typeDef: 
@@ -97,7 +97,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "SourceOfDefinition",
                         isRequired: false,
                         typeDef: 
@@ -108,7 +108,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "ConversionFactor",
                         isRequired: false,
                         typeDef: 
@@ -119,7 +119,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "RegistrationAuthorityId",
                         isRequired: false,
                         typeDef: 
@@ -130,7 +130,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Supplier",
                         isRequired: false,
                         typeDef: 

@@ -21,7 +21,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "value-data-type-v3rc01",
     }
     
-                },{
+                }, {
                     name: "ValueId",
                     isRequired: true,
                     typeDef: 

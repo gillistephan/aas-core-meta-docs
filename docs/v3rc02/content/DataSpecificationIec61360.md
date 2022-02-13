@@ -21,7 +21,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "ShortName",
                         isRequired: false,
                         typeDef: 
@@ -32,7 +32,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Unit",
                         isRequired: false,
                         typeDef: 
@@ -43,7 +43,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "UnitId",
                         isRequired: false,
                         typeDef: 
@@ -54,7 +54,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "SourceOfDefinition",
                         isRequired: false,
                         typeDef: 
@@ -65,7 +65,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Symbol",
                         isRequired: false,
                         typeDef: 
@@ -76,7 +76,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "DataType",
                         isRequired: false,
                         typeDef: 
@@ -87,7 +87,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "data-type-iec61360-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Definition",
                         isRequired: false,
                         typeDef: 
@@ -98,7 +98,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "lang-string-set-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "ValueFormat",
                         isRequired: false,
                         typeDef: 
@@ -109,7 +109,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "ValueList",
                         isRequired: false,
                         typeDef: 
@@ -120,7 +120,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "value-list-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "Value",
                         isRequired: false,
                         typeDef: 
@@ -131,7 +131,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "non-empty-string-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "ValueId",
                         isRequired: false,
                         typeDef: 
@@ -142,7 +142,7 @@ import PropertiesList from '../../../src/components/PropertiesList'
         to: "reference-v3rc02",
     }
     
-                    },{
+                    }, {
                         name: "LevelType",
                         isRequired: false,
                         typeDef: 
