@@ -15,7 +15,8 @@
     "format": "prettier --write .",
     "prepare": "husky install",
     "model:gen": "PROJECT_DIR=$(pwd) && cd docs_gen && python main.py --input_dir=$PROJECT_DIR/models --output_dir=$PROJECT_DIR/docs --project_dir=$PROJECT_DIR",
-    "model:gen-v3rc02": "yarn model:gen --model_version=v3rc02"
+    "model:gen-v3rc02": "yarn model:gen --model_version=v3rc02",
+    "model:gen-v3rc01": "yarn model:gen --model_version=v3rc01"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

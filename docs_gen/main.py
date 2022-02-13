@@ -1,5 +1,6 @@
 from ast import Param
 from importlib.resources import path
+from ntpath import join
 import pathlib
 import sys
 import argparse
@@ -14,6 +15,8 @@ from aas_core_codegen.common import (
     Identifier,
     assert_never,
 )
+from numpy import block
+from description import generate_description
 
 PRIMITIVE_TYPE_MAP = {
     intermediate.PrimitiveType.BOOL: Stripped("boolean"),
@@ -61,7 +64,7 @@ def _document_name(identifier: Identifier) -> Stripped:
 
 def _write_document_header(
     document_id: str, document_name: str, tags: Optional[List[str]] = None
-) -> Stripped:
+) -> Tuple[Optional[str], Optional[Error]]:
     writer = io.StringIO()
 
     writer.write("--- \n")
@@ -73,9 +76,9 @@ def _write_document_header(
         writer.write("tags: \n")
         for tag in tags:
             writer.write(f"{SPACE}- {tag} \n")
-
     writer.write("---")
-    return Stripped(writer.getvalue())
+
+    return Stripped(writer.getvalue()), None
 
 
 def _to_kebap_case(identifier: Identifier) -> str:
@@ -88,30 +91,141 @@ def _to_capital_camel_case(identifier: Identifier) -> str:
     return "{}".format("".join(part.capitalize() for part in parts))
 
 
-def _type_def_for_properties_list(
-    docs_ctx: DocsCtx, value: intermediate.TypeAnnotationUnion
-) -> Stripped:
+def _to_camel_case(identifier: Identifier) -> str:
+    parts = []  # type: List[str]
+    for idx, part in enumerate(identifier.split("_")):
+        if idx == 0:
+            parts.append(part)
+        else:
+            parts.append(part.capitalize())
+    return "{}".format("".join(parts))
+
+
+def _write_type_def_object(
+    type: str, is_list: bool, display_name: str, to: Optional[str] = None
+) -> Tuple[Optional[str], Optional[Error]]:
+    return (
+        f"""
+    {{
+        type: "{type}",
+        isList: {"true" if is_list is True else "false"},
+        displayName: "{display_name}",
+        to: {f'"{to}"' if to is not None else "null"},
+    }}
+    """,
+        None,
+    )
+
+
+def _generate_type_def_props(
+    docs_ctx: DocsCtx, value: intermediate.TypeAnnotationUnion, is_list: bool = False
+) -> Tuple[Optional[str], Optional[Error]]:
+    """
+    _generate_type_def_props generates a JS-Object with the following structure:
+    {
+        type: Primitive | Class | Enumeration | ConstrainedPrimitive,
+        isList: false | true,
+        displayName: <myName>,
+        to: <Link to the document>
+    }
+    """
+
+    block = None  # type: str
+    error = None  # type: Error
+
     if isinstance(value, intermediate.PrimitiveTypeAnnotation):
-        return Stripped(value.a_type)
+        block, error = _write_type_def_object(
+            type="Primitive", is_list=is_list, display_name=value.a_type
+        )
+
     elif isinstance(value, intermediate.OurTypeAnnotation):
         symbol = value.symbol
+        document_id = _document_id(docs_ctx=docs_ctx, identifier=symbol.name)
+        type = None
+
         if isinstance(symbol, intermediate.Enumeration):
-            return Stripped(symbol.name)
+            type = "Enumeration"
         elif isinstance(symbol, intermediate.ConstrainedPrimitive):
-            return PRIMITIVE_TYPE_MAP[symbol.constrainee]
+            type = "ConstrainedPrimitive"
         elif isinstance(symbol, intermediate.Class):
-            return symbol.name
+            type = "Class"
+
+        block, error = _write_type_def_object(
+            type=type,
+            is_list=is_list,
+            display_name=_to_capital_camel_case(symbol.name),
+            to=f"{document_id}",
+        )
+
     elif isinstance(value, intermediate.ListTypeAnnotation):
-        item_type = _type_def_for_properties_list(docs_ctx=docs_ctx, value=value.items)
-        return f"List of {item_type}"
+        block, error = _generate_type_def_props(
+            docs_ctx=docs_ctx, value=value.items, is_list=True
+        )
+
     elif isinstance(value, intermediate.OptionalTypeAnnotation):
-        return _type_def_for_properties_list(docs_ctx=docs_ctx, value=value.value)
+        block, error = _generate_type_def_props(docs_ctx=docs_ctx, value=value.value)
     else:
         assert_never(value)
 
+    return block, error
 
-def _format_type_def_for_properties_list(value: Stripped) -> Stripped:
-    return f"<code>{value}</code>"
+
+def _generate_properties_list_for_class(
+    docs_ctx: DocsCtx, value: intermediate.Class
+) -> Tuple[Optional[str], Optional[List[Error]]]:
+    # regin properties_list #######################################
+    writer = io.StringIO()
+    # import the component
+    writer.write(
+        "import PropertiesList from '../../../src/components/PropertiesList' \n\n"
+    )
+    # write the headline
+    writer.write("## Properties \n\n")
+    # open the component
+    writer.write("<PropertiesList items={[ \n")
+
+    errors = []  # type: List[Error]
+    blocks = []  # type: List[str]
+
+    for prop in value.properties:
+        if isinstance(prop.type_annotation, intermediate.OptionalTypeAnnotation):
+            type_def, error = _generate_type_def_props(
+                docs_ctx=docs_ctx, value=prop.type_annotation.value
+            )
+            if error is not None:
+                errors.append(error)
+            else:
+                blocks.append(
+                    f"""{{
+                        name: "{_to_capital_camel_case(prop.name)}",
+                        isRequired: false,
+                        typeDef: {type_def}
+                    }}"""
+                )
+
+        else:
+            type_def, error = _generate_type_def_props(
+                docs_ctx=docs_ctx, value=prop.type_annotation
+            )
+
+            if error is not None:
+                errors.append(error)
+            else:
+                blocks.append(
+                    f"""{{
+                    name: "{_to_capital_camel_case(prop.name)}",
+                    isRequired: true,
+                    typeDef: {type_def}
+                }}"""
+                )
+
+    if len(errors) > 0:
+        return None, errors
+
+    writer.write(",".join(blocks))
+    writer.write("]} /> \n \n")
+
+    return writer.getvalue(), None
 
 
 def _generate_for_abstract_class(
@@ -119,88 +233,80 @@ def _generate_for_abstract_class(
     abstract_class: intermediate.AbstractClass,
     document_id=str,
     document_name=str,
-) -> Tuple[Optional[str], Optional[List[Error]]]:
+) -> Tuple[Optional[str], Optional[Error]]:
     writer = io.StringIO()
 
-    header = _write_document_header(
+    header, error = _write_document_header(
         document_id=document_id, document_name=document_name
     )
+    if error is not None:
+        return None, error
+
     writer.write(header)
-    writer.write("\n \n")
+    writer.write("\n\n")
 
-    # regin properties_list #######################################
-    prop_list_writer = io.StringIO()
-    # import the component
-    prop_list_writer.write(
-        "import PropertiesList from '../../../src/components/PropertiesList' \n\n"
+    if abstract_class.description is not None:
+        description, error = generate_description(abstract_class.description)
+        if error is not None:
+            return None, error
+        writer.write(description)
+        writer.write("\n\n")
+
+    properties, error = _generate_properties_list_for_class(
+        docs_ctx=docs_ctx, value=abstract_class
     )
-    # write the headline
-    prop_list_writer.write("## Properties \n")
+    if error is not None:
+        return None, error
 
-    # open the component
-    prop_list_writer.write("<PropertiesList items={[ \n")
-    # list_item iterface
-    # {
-    #   name: "DisplayName",
-    #   isRequired: false,
-    #   typeDef: <code>string</code>
-    # }
-    for idx, prop in enumerate(abstract_class.properties):
-        if isinstance(prop.type_annotation, intermediate.OptionalTypeAnnotation):
-            type_def = _type_def_for_properties_list(
-                docs_ctx=docs_ctx, value=prop.type_annotation.value
-            )
-            formatted_type_def = _format_type_def_for_properties_list(type_def)
-            prop_list_writer.write(
-                f"""{{
-                    name: "{prop.name}",
-                    isRequired: false,
-                    typeDef: {formatted_type_def}
-                }}"""
-            )
+    writer.write(properties)
 
-        else:
-            prop_list_writer.write(
-                f"""{{
-                    name: "{prop.name}",
-                    isRequired: true,
-                    typeDef: {_format_type_def_for_properties_list(prop.type_annotation)}
-                }}"""
-            )
-
-        if idx < len(abstract_class.properties) - 1:
-            prop_list_writer.write(", \n")
-
-    prop_list_writer.write("]} /> \n \n")
-    writer.write(prop_list_writer.getvalue())
-    # endregion ###################################################
     return writer.getvalue(), None
 
 
 def _generate_for_concrete_class(
+    docs_ctx: DocsCtx,
     concrete_class: intermediate.ConcreteClass,
     document_id=str,
     document_name=str,
-) -> Tuple[Optional[str], Optional[List[Error]]]:
+) -> Tuple[Optional[str], Optional[Error]]:
     writer = io.StringIO()
 
-    header = _write_document_header(
+    header, error = _write_document_header(
         document_id=document_id,
         document_name=document_name,
     )
+    if error is not None:
+        return None, error
+
     writer.write(header)
+
+    if concrete_class.description is not None:
+        description, error = generate_description(concrete_class.description)
+        writer.write(description)
+        writer.write("\n\n")
+
+    properties, error = _generate_properties_list_for_class(
+        docs_ctx=docs_ctx, value=concrete_class
+    )
+    if error is not None:
+        return None, error
+
+    writer.write(properties)
 
     return writer.getvalue(), None
 
 
 def _generate_for_enum(
     enum: intermediate.Enumeration, document_id=str, document_name=str
-) -> Tuple[Optional[str], Optional[List[Error]]]:
+) -> Tuple[Optional[str], Optional[Error]]:
     writer = io.StringIO()
 
-    header = _write_document_header(
+    header, error = _write_document_header(
         document_id=document_id, document_name=document_name
     )
+    if error is not None:
+        return None, error
+
     writer.write(header)
 
     return writer.getvalue(), None
@@ -213,10 +319,11 @@ def _generate_for_constrained_primitive(
 ) -> Tuple[Optional[str], Optional[List[Error]]]:
     writer = io.StringIO()
 
-    header = _write_document_header(
+    header, error = _write_document_header(
         document_id=document_id,
         document_name=document_name,
     )
+
     writer.write(header)
 
     return writer.getvalue(), None
@@ -331,6 +438,7 @@ def _generate(
             concrete_class_sidebar_items.append(document_id)
             # generate docs
             docs, error = _generate_for_concrete_class(
+                docs_ctx=docs_ctx,
                 concrete_class=symbol,
                 document_id=document_id,
                 document_name=document_name,
@@ -386,7 +494,9 @@ def _generate(
     # generate sidebar
     sidebar_writer = io.StringIO()
     sidebar_writer.write("module.exports = [ \n")
-    sidebar_writer.write(f'{SPACE}"{docs_ctx.model_version}/overview", \n')
+    sidebar_writer.write(
+        f'{SPACE}"{docs_ctx.model_version}/overview-{docs_ctx.model_version}", \n'
+    )
     # write abstract_class_sidebar_items
     abstract_class_category = _write_sidebar_category(
         docs_ctx=docs_ctx,
@@ -426,6 +536,7 @@ def _generate(
     stdout.write(
         f"Sidebar generated to: {docs_ctx.abs_sidebar_path()}. Add it to the index.js file for display."
     )
+
     return 0
 
 
@@ -537,15 +648,12 @@ def execute(docs_ctx: DocsCtx, stdout: TextIO, stderr: TextIO) -> int:
                 return _execute_for_version(
                     docs_ctx=docs_ctx, stdout=stdout, stderr=stderr
                 )
-            else:
-                stderr.write(
-                    f"The --input_dir does not contain a directory for model_version {docs_ctx.model_version} \n"
-                )
-                return 1
         # if not iterate through all the found versions and generate them
         else:
             docs_ctx.model_version = model_version
+
             code = _execute_for_version(docs_ctx=docs_ctx, stdout=stdout, stderr=stderr)
+
             if code == 1:
                 return code
 

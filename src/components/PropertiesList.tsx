@@ -1,8 +1,9 @@
 import * as React from "react";
 import type { FC } from "react";
-import { Link } from "@docusaurus/router";
-import { Collapsible } from "@docusaurus/theme-common/lib/components/Collapsible";
 import clsx from "clsx";
+
+import type { TypeDefProps } from "./TypeDef";
+import TypeDef from "./TypeDef";
 
 type ListProps = {
   listName: string;
@@ -12,7 +13,7 @@ type ListProps = {
 type ListItemProps = {
   name: string;
   isRequired: boolean;
-  typeDef: React.ReactNode;
+  typeDef: TypeDefProps;
   inheritedFrom?: React.ReactNode;
 };
 
@@ -20,12 +21,11 @@ const PropertiesListItem: FC<ListItemProps> = ({
   name,
   isRequired,
   typeDef,
-  inheritedFrom,
 }) => {
   return (
     <div className="py-2 sm:grid sm:grid-cols-3 sm:gap-4">
       <dt className="flex w-full items-center space-x-4">
-        <span className=" w-52">{name}</span>
+        <span className="w-56">{name}</span>
         <span
           className={clsx(
             isRequired
@@ -38,7 +38,9 @@ const PropertiesListItem: FC<ListItemProps> = ({
         </span>
       </dt>
       <dd className="mt-1 sm:col-span-2 sm:mt-0">
-        <div className="flex flex-col items-start justify-start">{typeDef}</div>
+        <div className="flex flex-col items-start justify-start">
+          <TypeDef {...typeDef} />
+        </div>
       </dd>
     </div>
   );

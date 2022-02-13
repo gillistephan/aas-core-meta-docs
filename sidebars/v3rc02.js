@@ -1,5 +1,5 @@
 module.exports = [ 
-  "v3rc02/overview", 
+  "v3rc02/overview-v3rc02", 
   { 
   type: "category", 
   label: "Abstract Classes", 

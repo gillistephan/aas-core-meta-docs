@@ -239,14 +239,6 @@ class _ElementRenderer(intermediate_rendering.DocutilsElementTransformer[str]):
                 tail = remainder[i:]
                 break
 
-        # NOTE (2021-09-16, mristin):
-        # We restrict ourselves here quite a lot. This function will need to evolve as
-        # we add a larger variety of docstrings to the meta-model.
-        #
-        # For example, we need to translate ``:paramref:``'s to ``<paramref ...>`` in
-        # C#. Additionally, we need to change the name of the argument accordingly
-        # (``snake_case`` to ``camelCase``).
-
         # Blocks to be joined by a new-line
         blocks = []  # type: List[Stripped]
 
@@ -258,7 +250,7 @@ class _ElementRenderer(intermediate_rendering.DocutilsElementTransformer[str]):
                 return None, error
 
             assert summary_text is not None
-            blocks.append(Stripped(f"<summary>\n" f"{summary_text}\n" f"</summary>"))
+            blocks.append(summary_text)
 
         if remarks:
             remark_blocks = []  # type: List[str]
@@ -276,17 +268,13 @@ class _ElementRenderer(intermediate_rendering.DocutilsElementTransformer[str]):
             )
 
             if len(remark_blocks) == 1:
-                blocks.append(
-                    Stripped(f"<remarks>\n" f"{remark_blocks[0]}\n" f"</remarks>")
-                )
+                blocks.append(Stripped(f"<p>\n" f"{remark_blocks[0]}\n" f"</p>"))
             else:
                 remarks_paras = "\n".join(
-                    f"<para>{remark_block}</para>" for remark_block in remark_blocks
+                    f"<p>{remark_block}</p>" for remark_block in remark_blocks
                 )
 
-                blocks.append(
-                    Stripped(f"<remarks>\n" f"{remarks_paras}\n" f"</remarks>")
-                )
+                blocks.append(Stripped(f"<div>\n" f"{remarks_paras}\n" f"</div>"))
 
         for tail_element in tail:
             # BEFORE-RELEASE (mristin, 2021-12-13): test
@@ -386,8 +374,8 @@ class _ElementRenderer(intermediate_rendering.DocutilsElementTransformer[str]):
 
         # fmt: off
         text = '\n'.join(
-            f'/// {line}'
-            for line in '\n'.join(blocks).splitlines()
+            f'{line}'
+            for line in '\n\n'.join(blocks).splitlines()
         )
         # fmt: on
         return text, None

@@ -1,0 +1,5 @@
+--- 
+id: local-key-type-v3rc01 
+title: LocalKeyType 
+sidebar_label: LocalKeyType 
+---

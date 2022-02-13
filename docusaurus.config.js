@@ -42,12 +42,12 @@ module.exports = {
           label: "Version",
           items: [
             {
-              to: "/docs/v3rc02/overview",
+              to: "/docs/v3rc02/overview-v3rc02",
               activeBasePath: "/docs/v3rc02/",
               label: "V3.RC02",
             },
             {
-              to: "docs/v3rc01/overview",
+              to: "docs/v3rc01/overview-v3rc01",
               activeBasePath: "docs/v3rc01/",
               label: "V3.RC01",
             },
