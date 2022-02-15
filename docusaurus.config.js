@@ -19,7 +19,21 @@ module.exports = {
   themeConfig: {
     // Colormode
     colorMode: {
-      disableSwitch: true,
+      defaultMode: "dark",
+      disableSwitch: false,
+      switchConfig: {
+        darkIcon: "🌙",
+        darkIconStyle: {
+          content: `url(/img/moon.svg)`,
+          transform: "scale(2)",
+          margin: "0 0.2rem",
+        },
+        lightIcon: "\u{1F602}",
+        lightIconStyle: {
+          content: `url(/img/sun.svg)`,
+          transform: "scale(2)",
+        },
+      },
     },
     // Navbar
     navbar: {
