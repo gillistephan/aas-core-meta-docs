@@ -1,11 +1,9 @@
-from ast import Param
-from importlib.resources import path
 import pathlib
 import sys
 import argparse
 import os
 import io
-from typing import TextIO, Tuple, Optional, List
+from typing import TextIO, Tuple, Optional, List, Dict
 from aas_core_codegen import parse, run, intermediate, main
 from aas_core_codegen.common import (
     LinenoColumner,
@@ -14,8 +12,60 @@ from aas_core_codegen.common import (
     Identifier,
     assert_never,
 )
-from numpy import block
+import docutils.nodes
+import re
 from description import generate_description
+
+# region helpers ###############################################
+def _to_kebap_case(identifier: Identifier) -> str:
+    parts = identifier.split("_")
+    return "{}".format("-".join(part.lower() for part in parts))
+
+
+def _to_capital_camel_case(identifier: Identifier) -> str:
+    parts = identifier.split("_")
+    return "{}".format("".join(part.capitalize() for part in parts))
+
+
+def _to_camel_case(identifier: Identifier) -> str:
+    parts = []  # type: List[str]
+    for idx, part in enumerate(identifier.split("_")):
+        if idx == 0:
+            parts.append(part)
+        else:
+            parts.append(part.capitalize())
+    return "{}".format("".join(parts))
+
+
+def _document_id(docs_ctx: "DocsContext", identifier: Identifier) -> Stripped:
+    base = _to_kebap_case(identifier=identifier)
+    return Stripped(f"{base}-{docs_ctx.model_version}")
+
+
+def _document_name(identifier: Identifier) -> Stripped:
+    return _to_capital_camel_case(identifier=identifier)
+
+
+def _write_md_document_header(
+    document_id: str, document_name: str, tags: Optional[List[str]] = None
+) -> str:
+    writer = io.StringIO()
+
+    writer.write("--- \n")
+    writer.write(f"id: {document_id} \n")
+    writer.write(f"title: {document_name} \n")
+    writer.write(f"sidebar_label: {document_name} \n")
+
+    if tags is not None:
+        writer.write("tags: \n")
+        for tag in tags:
+            writer.write(f"{SPACE}- {tag} \n")
+    writer.write("---")
+
+    return writer.getvalue()
+
+
+# end region helpers ###############################################
 
 PRIMITIVE_TYPE_MAP = {
     intermediate.PrimitiveType.BOOL: Stripped("boolean"),
@@ -27,9 +77,152 @@ PRIMITIVE_TYPE_MAP = {
 
 SPACE = "  "
 DOUBLE_SPACE = SPACE * 2
+AASD_CONSTRAINT_RE = re.compile(r"Constraint AASd-\d{3}:")
+AASD_CONSTRAINT_REF_RE = re.compile(r"See Constraint AASd-\d{3}")
 
 
-class DocsCtx:
+class AASdConstraint:
+    def __init__(self, identifier: Identifier, name: str, description: str) -> None:
+        self.identifier = identifier
+        self.name = name
+        self.description = description
+
+    def stringify(self, docs_ctx: "DocsContext") -> Stripped:
+        return f"""## {self.name} \n\n {self.description}"""
+
+
+class DocsElementPropTypeDef:
+    type = None  # type: str
+    is_list = None  # type: bool
+    display_name = None  # type: str
+    to = None  # type: Optional[str]
+
+    def __init__(self, prop: intermediate.Property) -> None:
+        self.prop_name = prop.name
+        self._init(prop.type_annotation)
+
+    def _init(self, value: intermediate.TypeAnnotationUnion) -> str:
+        if isinstance(value, intermediate.PrimitiveTypeAnnotation):
+            self.display_name = PRIMITIVE_TYPE_MAP[value.a_type]
+            self.type = "Primitive"
+
+        elif isinstance(value, intermediate.OurTypeAnnotation):
+            symbol = value.symbol
+            self.display_name = _to_capital_camel_case(symbol.name)
+            self.to = _to_kebap_case(symbol.name)
+
+            if isinstance(symbol, intermediate.Enumeration):
+                self.type = "Enumeration"
+            elif isinstance(symbol, intermediate.ConstrainedPrimitive):
+                self.type = "ConstrainedPrimitive"
+            elif isinstance(symbol, intermediate.Class):
+                self.type = "Class"
+
+        elif isinstance(value, intermediate.ListTypeAnnotation):
+            self.is_list = True
+            return self._init(value.items)
+        elif isinstance(value, intermediate.OptionalTypeAnnotation):
+            return self._init(value.value)
+
+        else:
+            assert_never(value)
+
+    def stringify(self, docs_ctx: "DocsContext") -> Stripped:
+        to = None
+        if self.type != "Primitive":
+            to = _document_id(docs_ctx=docs_ctx, identifier=self.to)
+
+        return f"""{{ type: "{self.type}", isList: {"true" if self.is_list is True else "false"}, displayName: "{self.display_name}", to: {f'"{to}"' if to is not None else "null"} }}"""
+
+
+class DocsElementProp:
+    def __init__(self, prop: intermediate.Property) -> None:
+        self.is_required = self._is_required(prop)
+        self.display_name = self._display_name(prop)
+        self.type_def = DocsElementPropTypeDef(prop)
+
+    def _is_required(self, prop: intermediate.Property) -> bool:
+        if isinstance(prop.type_annotation, intermediate.OptionalTypeAnnotation):
+            return True
+        else:
+            return False
+
+    def _display_name(self, prop: intermediate.Property) -> str:
+        return _to_capital_camel_case(prop.name)
+
+    def stringify(self, docs_ctx: "DocsContext") -> Stripped:
+        type_def = self.type_def.stringify(docs_ctx=docs_ctx)
+        return f"""{{ displayName: "{self.display_name}", isRequired: {"true" if self.is_required is True else "false"}, typeDef: {type_def} }}"""
+
+
+class DocsElement:
+    props = None  # type: List[DocsElementProp]
+
+    def __init__(
+        self,
+        identifier: Identifier,
+        document_id: str,
+        document_name: str,
+    ) -> None:
+        self.props = []
+        self.identifier = identifier
+        self.document_id = document_id
+        self.document_name = document_name
+
+    def add_prop(self, prop: intermediate.Property) -> None:
+        new_prop = DocsElementProp(prop)
+        self.props.append(new_prop)
+
+    def _stringify_props(self, docs_ctx: "DocsContext") -> str:
+        if len(self.props) > 0:
+            writer = io.StringIO()
+            # import the component
+            writer.write(
+                "import PropertiesList from '@site/src/components/PropertiesList' \n\n"
+            )
+            # write the headline
+            writer.write("## Properties \n\n")
+            # open the component
+            writer.write("<PropertiesList items={[ ")
+            for i, prop in enumerate(self.props):
+                writer.write(prop.stringify(docs_ctx=docs_ctx))
+                if len(self.props) != i:
+                    writer.write(", ")
+            writer.write("]} /> \n\n")
+            return writer.getvalue()
+        else:
+            return ""
+
+    def _stringify_element_header(
+        self, docs_ctx: "DocsContext", tags: Optional[List[str]] = None
+    ) -> str:
+        return _write_md_document_header(self.document_id, self.document_name)
+
+    def stringify(self, docs_ctx: "DocsContext") -> str:
+        writer = io.StringIO()
+        # Header
+        writer.write(self._stringify_element_header(docs_ctx=docs_ctx))
+        writer.write("\n\n")
+
+        # Properties
+        writer.write(self._stringify_props(docs_ctx=docs_ctx))
+
+        return writer.getvalue()
+
+
+def _identifier_from_symbol(symbol: intermediate.Symbol) -> Identifier:
+    if isinstance(symbol, intermediate.AbstractClass):
+        return symbol.interface.name
+    else:
+        return symbol.name
+
+
+class DocsContext:
+    aasd_constraints = dict()  # type: Dict[str, AASdConstraint]
+    docs_elements = dict()  # type: Dict[Identifier, DocsElement]
+    sidebar_items = dict()  # type: Dict[str, List[str]]
+    backwards_ref = dict()  # type: Dict[Identifier, Dict[Identifier, List[Identifier]]]
+
     def __init__(
         self,
         project_dir: pathlib.Path,
@@ -51,495 +244,253 @@ class DocsCtx:
     def abs_sidebar_path(self) -> pathlib.Path:
         return self.project_dir / "sidebars" / f"{self.model_version}.js"
 
+    def add_maybe_assd_constraint(self, description: intermediate.Description) -> None:
+        if len(description.document.children) == 0:
+            return None
 
-def _document_id(docs_ctx: DocsCtx, identifier: Identifier) -> Stripped:
-    base = _to_kebap_case(identifier=identifier)
-    return Stripped(f"{base}-{docs_ctx.model_version}")
+        for child in description.document.children:
+            if isinstance(child, docutils.nodes.paragraph):
+                for element in child:
+                    if element is not None and isinstance(element, docutils.nodes.Text):
+                        match = AASD_CONSTRAINT_RE.match(element)
+                        if match is not None:
+                            name = element[match.start() : match.end() - 1]
+                            constraint = AASdConstraint(
+                                identifier=_to_camel_case(name),
+                                name=name,
+                                description=child.astext()[match.end() + 1 :],
+                            )
+                            self.aasd_constraints[constraint.identifier] = constraint
 
-
-def _document_name(identifier: Identifier) -> Stripped:
-    return _to_capital_camel_case(identifier=identifier)
-
-
-def _write_document_header(
-    document_id: str, document_name: str, tags: Optional[List[str]] = None
-) -> Tuple[Optional[str], Optional[Error]]:
-    writer = io.StringIO()
-
-    writer.write("--- \n")
-    writer.write(f"id: {document_id} \n")
-    writer.write(f"title: {document_name} \n")
-    writer.write(f"sidebar_label: {document_name} \n")
-
-    if tags is not None:
-        writer.write("tags: \n")
-        for tag in tags:
-            writer.write(f"{SPACE}- {tag} \n")
-    writer.write("---")
-
-    return Stripped(writer.getvalue()), None
-
-
-def _to_kebap_case(identifier: Identifier) -> str:
-    parts = identifier.split("_")
-    return "{}".format("-".join(part.lower() for part in parts))
-
-
-def _to_capital_camel_case(identifier: Identifier) -> str:
-    parts = identifier.split("_")
-    return "{}".format("".join(part.capitalize() for part in parts))
-
-
-def _to_camel_case(identifier: Identifier) -> str:
-    parts = []  # type: List[str]
-    for idx, part in enumerate(identifier.split("_")):
-        if idx == 0:
-            parts.append(part)
+    def has_aasd_constraint(self, identifier: str) -> bool:
+        if identifier in self.aasd_constraints:
+            return True
         else:
-            parts.append(part.capitalize())
-    return "{}".format("".join(parts))
+            return False
 
+    def _add_sidebar_item(self, category: str, document_id: str) -> None:
+        exists = self.sidebar_items.get(category, None)
+        if exists is None:
+            self.sidebar_items[category] = [document_id]
+        else:
+            exists.append(document_id)
+            self.sidebar_items[category] = exists
 
-def _write_type_def_object(
-    type: str, is_list: bool, display_name: str, to: Optional[str] = None
-) -> Tuple[Optional[str], Optional[Error]]:
-    return (
-        f"""
-    {{
-        type: "{type}",
-        isList: {"true" if is_list is True else "false"},
-        displayName: "{display_name}",
-        to: {f'"{to}"' if to is not None else "null"},
-    }}
-    """,
-        None,
-    )
+    def _add_sidebar_item_if_needed(
+        self, docs_element: DocsElement, symbol: intermediate.Symbol
+    ) -> None:
+        if isinstance(symbol, intermediate.ConcreteClass):
+            self._add_sidebar_item(
+                category="Concrete Classes", document_id=docs_element.document_id
+            )
+        elif isinstance(symbol, intermediate.AbstractClass):
+            self._add_sidebar_item(
+                category="Abstract Classes", document_id=docs_element.document_id
+            )
 
-
-def _generate_type_def_props(
-    docs_ctx: DocsCtx, value: intermediate.TypeAnnotationUnion, is_list: bool = False
-) -> Tuple[Optional[str], Optional[Error]]:
-    """
-    _generate_type_def_props generates a JS-Object with the following structure:
-    {
-        type: Primitive | Class | Enumeration | ConstrainedPrimitive,
-        isList: false | true,
-        displayName: <myName>,
-        to: <Link to the document>
-    }
-    """
-
-    block = None  # type: str
-    error = None  # type: Error
-
-    if isinstance(value, intermediate.PrimitiveTypeAnnotation):
-        block, error = _write_type_def_object(
-            type="Primitive", is_list=is_list, display_name=value.a_type
-        )
-
-    elif isinstance(value, intermediate.OurTypeAnnotation):
-        symbol = value.symbol
-        document_id = _document_id(docs_ctx=docs_ctx, identifier=symbol.name)
-        type = None
-
-        if isinstance(symbol, intermediate.Enumeration):
-            type = "Enumeration"
         elif isinstance(symbol, intermediate.ConstrainedPrimitive):
-            type = "ConstrainedPrimitive"
-        elif isinstance(symbol, intermediate.Class):
-            type = "Class"
-
-        block, error = _write_type_def_object(
-            type=type,
-            is_list=is_list,
-            display_name=_to_capital_camel_case(symbol.name),
-            to=f"{document_id}",
-        )
-
-    elif isinstance(value, intermediate.ListTypeAnnotation):
-        block, error = _generate_type_def_props(
-            docs_ctx=docs_ctx, value=value.items, is_list=True
-        )
-
-    elif isinstance(value, intermediate.OptionalTypeAnnotation):
-        block, error = _generate_type_def_props(docs_ctx=docs_ctx, value=value.value)
-    else:
-        assert_never(value)
-
-    return block, error
-
-
-def _generate_properties_list_for_class(
-    docs_ctx: DocsCtx, value: intermediate.Class
-) -> Tuple[Optional[str], Optional[List[Error]]]:
-    # regin properties_list #######################################
-    writer = io.StringIO()
-    # import the component
-    writer.write(
-        "import PropertiesList from '../../../src/components/PropertiesList' \n\n"
-    )
-    # write the headline
-    writer.write("## Properties \n\n")
-    # open the component
-    writer.write("<PropertiesList items={[ \n")
-
-    errors = []  # type: List[Error]
-    blocks = []  # type: List[str]
-
-    for prop in value.properties:
-        if isinstance(prop.type_annotation, intermediate.OptionalTypeAnnotation):
-            type_def, error = _generate_type_def_props(
-                docs_ctx=docs_ctx, value=prop.type_annotation.value
+            self._add_sidebar_item(
+                category="Constrained Primitives", document_id=docs_element.document_id
             )
-            if error is not None:
-                errors.append(error)
-            else:
-                blocks.append(
-                    f"""{{
-                        name: "{_to_capital_camel_case(prop.name)}",
-                        isRequired: false,
-                        typeDef: {type_def}
-                    }}"""
-                )
+        elif isinstance(symbol, intermediate.Enumeration):
+            self._add_sidebar_item(
+                category="Enumerations", document_id=docs_element.document_id
+            )
 
+    def _stringify_sidebar_category(self, label: str, items: List[str]) -> str:
+        writer = io.StringIO()
+        writer.write(
+            f"""{{ type: "category", label: "{label}", collapsed: true, items: [ """
+        )
+        for i, item in enumerate(sorted(items)):
+            item_name = f'"{self.rel_content_path_as_str()}/{item}"'
+            writer.write(item_name)
+            if len(items) - 1 > i:
+                writer.write(", ")
+        writer.write("]} \n")
+
+        return writer.getvalue()
+
+    def _stringify_sidebar(self) -> str:
+        writer = io.StringIO()
+        writer.write("module.exports = [ ")
+        writer.write(f'"{self.model_version}/overview-{self.model_version}", ')
+        writer.write(f'"{self.model_version}/constraints-{self.model_version}", ')
+
+        for i, key in enumerate(sorted(self.sidebar_items)):
+            items = self.sidebar_items.get(key)
+            writer.write(self._stringify_sidebar_category(label=key, items=items))
+            if len(self.sidebar_items) - 1 > i:
+                writer.write(", ")
+        writer.write("] \n")
+        return writer.getvalue()
+
+    def _init_docs_element(self, symbol: intermediate.Symbol) -> DocsElement:
+        identifier = _identifier_from_symbol(symbol=symbol)
+        document_id = _document_id(self, identifier)
+        document_name = _document_name(identifier)
+
+        return DocsElement(
+            identifier=identifier,
+            document_id=document_id,
+            document_name=document_name,
+        )
+
+    def add_docs_element(self, symbol: intermediate.Symbol) -> None:
+        identifier = _identifier_from_symbol(symbol)
+        docs_element = self.docs_elements.get(identifier, None)
+
+        if docs_element is None:
+            docs_element = self._init_docs_element(symbol)
+
+        if isinstance(symbol, intermediate.Class):
+            if symbol.description is not None:
+                self.add_maybe_assd_constraint(symbol.description)
+
+            for prop in symbol.properties:
+                docs_element.add_prop(prop)
+                if prop.description is not None:
+                    self.add_maybe_assd_constraint(prop.description)
+
+                self._maybe_add_backwards_ref(identifier, prop)
+
+        self._add_sidebar_item_if_needed(docs_element=docs_element, symbol=symbol)
+        self.docs_elements[docs_element.identifier] = docs_element
+
+    def write_file(self, output_path: pathlib.Path, docs: str) -> Error:
+        output_path.parent.mkdir(exist_ok=True)
+        try:
+            output_path.write_text(docs)
+        except Exception as exception:
+            return Error(
+                None, f"Faild to write docs to {output_path}", [str(exception)]
+            )
+
+        return None
+
+    def _add_backwards_ref(
+        self, ref_identifier: Identifier, document_id: str, prop_name: Identifier
+    ):
+        exists = self.backwards_ref.get(document_id)
+        if exists is None:
+            d = dict()
+            d[ref_identifier] = [prop_name]
+            self.backwards_ref[document_id] = d
         else:
-            type_def, error = _generate_type_def_props(
-                docs_ctx=docs_ctx, value=prop.type_annotation
-            )
-
-            if error is not None:
-                errors.append(error)
+            inner_exists = exists.get(ref_identifier)
+            if inner_exists is None:
+                exists[ref_identifier] = [prop_name]
             else:
-                blocks.append(
-                    f"""{{
-                    name: "{_to_capital_camel_case(prop.name)}",
-                    isRequired: true,
-                    typeDef: {type_def}
-                }}"""
-                )
+                inner_exists.append(prop_name)
+                exists[ref_identifier] = inner_exists
 
-    if len(errors) > 0:
-        return None, errors
+            self.backwards_ref[document_id] = exists
 
-    writer.write(", ".join(blocks))
-    writer.write("]} /> \n \n")
+    def _maybe_add_backwards_ref(
+        self, ref_identifier: Identifier, prop: intermediate.Property
+    ) -> None:
+        if isinstance(prop.type_annotation, intermediate.OptionalTypeAnnotation):
+            if isinstance(prop.type_annotation.value, intermediate.OurTypeAnnotation):
+                document_id = _document_id(self, prop.type_annotation.value.symbol.name)
+                self._add_backwards_ref(ref_identifier, document_id, prop.name)
 
-    return writer.getvalue(), None
+        elif isinstance(prop.type_annotation, intermediate.ListTypeAnnotation):
+            if isinstance(prop.type_annotation.items, intermediate.OurTypeAnnotation):
+                document_id = _document_id(self, prop.type_annotation.items.symbol.name)
+                self._add_backwards_ref(ref_identifier, document_id, prop.name)
 
+        elif isinstance(prop.type_annotation, intermediate.OurTypeAnnotation):
+            document_id = _document_id(self, prop.type_annotation.symbol.name)
+            self._add_backwards_ref(ref_identifier, document_id, prop.name)
 
-def _generate_for_abstract_class(
-    docs_ctx: DocsCtx,
-    abstract_class: intermediate.AbstractClass,
-    document_id=str,
-    document_name=str,
-) -> Tuple[Optional[str], Optional[Error]]:
-    writer = io.StringIO()
+        return
 
-    header, error = _write_document_header(
-        document_id=document_id, document_name=document_name
-    )
-    if error is not None:
-        return None, error
+    def _stringify_backwards_ref(
+        self, entry: Dict[Identifier, List[Identifier]]
+    ) -> str:
+        writer = io.StringIO()
+        # import the component
+        writer.write("import UsageList from '@site/src/components/UsageList' \n\n")
+        # write the headline
+        writer.write("## Usages \n\n")
+        # open the component
+        writer.write("<UsageList items={[ ")
+        for i, key in enumerate(entry):
+            items = entry.get(key)
+            writer.write(
+                f'{{ displayName: "{_to_capital_camel_case(key)}", to: "{_document_id(self, key)}", props: [ '
+            )
+            for j, item in enumerate(items):
+                writer.write(f'"{_to_capital_camel_case(item)}"')
+                if len(items) - 1 > j:
+                    writer.write(", ")
+            writer.write("]}")
+            if len(entry) - 1 > i:
+                writer.write(", ")
+        writer.write("]} /> \n \n")
 
-    writer.write(header)
-    writer.write("\n\n")
+        return writer.getvalue()
 
-    if abstract_class.description is not None:
-        description, error = generate_description(abstract_class.description)
+    def write_files(self, stdout: TextIO, stderr: TextIO) -> int:
+        # write doc elements
+        for key in self.docs_elements:
+            writer = io.StringIO()
+
+            element = self.docs_elements.get(key)
+            writer.write(element.stringify(self))
+            writer.write("\n\n")
+
+            backwards_ref = self.backwards_ref.get(element.document_id, None)
+            if backwards_ref is not None:
+                writer.write(self._stringify_backwards_ref(backwards_ref))
+
+            output_path = self.abs_content_path() / f"{key}.mdx"
+            error = self.write_file(output_path, writer.getvalue())
+            if error is not None:
+                return 1
+
+        # write sidebar
+        output_path = self.abs_sidebar_path()
+        error = self.write_file(output_path, self._stringify_sidebar())
         if error is not None:
-            return None, error
-        writer.write(description)
-        writer.write("\n\n")
+            return 1
 
-    properties, error = _generate_properties_list_for_class(
-        docs_ctx=docs_ctx, value=abstract_class
-    )
-    if error is not None:
-        return None, error
-
-    writer.write(properties)
-
-    return writer.getvalue(), None
-
-
-def _generate_for_concrete_class(
-    docs_ctx: DocsCtx,
-    concrete_class: intermediate.ConcreteClass,
-    document_id=str,
-    document_name=str,
-) -> Tuple[Optional[str], Optional[Error]]:
-    writer = io.StringIO()
-
-    header, error = _write_document_header(
-        document_id=document_id,
-        document_name=document_name,
-    )
-    if error is not None:
-        return None, error
-
-    writer.write(header)
-
-    if concrete_class.description is not None:
-        description, error = generate_description(concrete_class.description)
-        writer.write(description)
-        writer.write("\n\n")
-
-    properties, error = _generate_properties_list_for_class(
-        docs_ctx=docs_ctx, value=concrete_class
-    )
-    if error is not None:
-        return None, error
-
-    writer.write(properties)
-
-    return writer.getvalue(), None
-
-
-def _generate_for_enum(
-    enum: intermediate.Enumeration, document_id=str, document_name=str
-) -> Tuple[Optional[str], Optional[Error]]:
-    writer = io.StringIO()
-
-    header, error = _write_document_header(
-        document_id=document_id, document_name=document_name
-    )
-    if error is not None:
-        return None, error
-
-    writer.write(header)
-
-    return writer.getvalue(), None
-
-
-def _generate_for_constrained_primitive(
-    primitive: intermediate.ConstrainedPrimitive,
-    document_id=str,
-    document_name=str,
-) -> Tuple[Optional[str], Optional[List[Error]]]:
-    writer = io.StringIO()
-
-    header, error = _write_document_header(
-        document_id=document_id,
-        document_name=document_name,
-    )
-
-    writer.write(header)
-
-    return writer.getvalue(), None
-
-
-def _write_element_to_md_file(
-    output_path: pathlib.Path, element_name: Identifier, docs: Stripped
-) -> Error:
-    pth = output_path / f"{element_name}.md"
-    pth.parent.mkdir(exist_ok=True)
-
-    try:
-        pth.write_text(docs)
-    except Exception as exception:
-        return Error(
-            None, f"Failed to write docs for {element_name} to {pth}", [str(exception)]
+        # constraints
+        output_path = self.output_dir / self.model_version / f"constraints.mdx"
+        constraints_writer = io.StringIO()
+        header = _write_md_document_header(
+            f"constraints-{self.model_version}", document_name="Constraints"
         )
-    return None
+        constraints_writer.write(header)
 
+        constraints_writer.write("\n\n")
+        for i, key in enumerate(sorted(self.aasd_constraints)):
+            constraint = self.aasd_constraints.get(key)
+            constraints_writer.write(constraint.stringify(docs_ctx=self))
 
-def _write_to_sidebar_file(docs_ctx: DocsCtx, docs: Stripped) -> Error:
-    """
-    _wirte_to_sidebar_file generates the sidebar elements for the specified version
-    of the meta-model. The file name is <model_version>.js
-    """
-    pth = docs_ctx.abs_sidebar_path()
-    pth.parent.mkdir(exist_ok=True)
+            if len(self.aasd_constraints) > i:
+                constraints_writer.write("\n\n")
+        error = self.write_file(output_path, constraints_writer.getvalue())
+        if error is not None:
+            return 1
 
-    try:
-        pth.write_text(docs)
-    except Exception as exception:
-        return Error(None, f"Failed to write sidebar to {pth}", [str(exception)])
-
-    return None
-
-
-def _write_sidebar_category(
-    docs_ctx: DocsCtx, label: str, items: List[str], collapsed: bool = False
-) -> Stripped:
-    """
-    _write_sidebar_category generates a json object according to the docusaurus sidebar_item spec.
-
-    {
-        "type": "category",
-        "label": "<mylabel>",
-        "collapsed": false,
-        items: [<my-items>]
-    }
-    """
-    writer = io.StringIO()
-    writer.write("{ \n")
-    writer.write(f'{SPACE}type: "category", \n')
-    writer.write(f'{SPACE}label: "{label}", \n')
-
-    if collapsed:
-        writer.write(f"{SPACE}collapsed: false, \n")
-    else:
-        writer.write(f"{SPACE}collapsed: true, \n")
-
-    writer.write(f"{SPACE} items: [")
-    for i, item in enumerate(sorted(items)):
-        item_name = f'"{docs_ctx.rel_content_path_as_str()}/{item}"'
-        writer.write(item_name)
-        if len(items) - 1 != i:
-            writer.write(", \n")
-
-    writer.write("] \n")
-
-    writer.write("}")
-
-    return Stripped(writer.getvalue())
+        return 0
 
 
 def _generate(
-    context: run.Context, docs_ctx: DocsCtx, stdout: TextIO, stderr: TextIO
+    context: run.Context, docs_ctx: DocsContext, stdout: TextIO, stderr: TextIO
 ) -> int:
-    content_dir = docs_ctx.abs_content_path()
-
-    abstract_class_sidebar_items = []  # type: List[str]
-    concrete_class_sidebar_items = []  # type: List[str]
-    enumeration_sidebar_items = []  # type: List[str]
-    constrained_primitive_items = []  # type: List[str]
-
     for symbol in context.symbol_table.symbols:
-        if isinstance(symbol, intermediate.AbstractClass):
-            name = symbol.interface.name
-            # document
-            document_id = _document_id(docs_ctx, name)
-            document_name = _document_name(name)
-            # add to sidebar
-            abstract_class_sidebar_items.append(document_id)
-            # generate docs
-            docs, error = _generate_for_abstract_class(
-                docs_ctx=docs_ctx,
-                abstract_class=symbol.interface,
-                document_id=document_id,
-                document_name=document_name,
-            )
-            if error is not None:
-                return 1
+        docs_ctx.add_docs_element(symbol=symbol)
 
-            error = _write_element_to_md_file(content_dir, document_name, docs)
-            if error is not None:
-                return 1
+    return docs_ctx.write_files(stdout=stdout, stderr=stderr)
 
-        elif isinstance(symbol, intermediate.ConcreteClass):
-            name = symbol.name
-            # document
-            document_id = _document_id(docs_ctx, name)
-            document_name = _document_name(name)
-            # add to sidebar
-            concrete_class_sidebar_items.append(document_id)
-            # generate docs
-            docs, error = _generate_for_concrete_class(
-                docs_ctx=docs_ctx,
-                concrete_class=symbol,
-                document_id=document_id,
-                document_name=document_name,
-            )
-            if error is not None:
-                return 1
 
-            error = _write_element_to_md_file(content_dir, document_name, docs)
-            if error is not None:
-                return 1
-
-        elif isinstance(symbol, intermediate.ConstrainedPrimitive):
-            name = symbol.name
-            # document
-            document_id = _document_id(docs_ctx, name)
-            document_name = _document_name(name)
-            # add to sidebar
-            constrained_primitive_items.append(document_id)
-            # generate docs
-            docs, error = _generate_for_constrained_primitive(
-                symbol, document_id=document_id, document_name=document_name
-            )
-            if error is not None:
-                return 1
-
-            error = _write_element_to_md_file(content_dir, document_name, docs)
-            if error is not None:
-                return 1
-
-        elif isinstance(symbol, intermediate.Enumeration):
-            name = symbol.name
-            # document
-            document_id = _document_id(docs_ctx, name)
-            document_name = _document_name(name)
-            # add to sidebar
-            enumeration_sidebar_items.append(document_id)
-            # generate docs
-            docs, error = _generate_for_enum(
-                symbol, document_id=document_id, document_name=document_name
-            )
-            if error is not None:
-                return 1
-
-            error = _write_element_to_md_file(content_dir, document_name, docs)
-            if error is not None:
-                return 1
-
-        else:
-            assert_never(symbol)
-
-    stdout.write(f"Markdown docs generated to: {content_dir}\n")
-
-    # generate sidebar
-    sidebar_writer = io.StringIO()
-    sidebar_writer.write("module.exports = [ \n")
-    sidebar_writer.write(
-        f'{SPACE}"{docs_ctx.model_version}/overview-{docs_ctx.model_version}", \n'
-    )
-    # write abstract_class_sidebar_items
-    abstract_class_category = _write_sidebar_category(
-        docs_ctx=docs_ctx,
-        label="Abstract Classes",
-        items=abstract_class_sidebar_items,
-    )
-    sidebar_writer.write(f"{SPACE}{abstract_class_category}")
-    sidebar_writer.write(", \n")
-    # write concrete_class_sidebar_items
-    concrete_class_category = _write_sidebar_category(
-        docs_ctx=docs_ctx,
-        label="Concrete Classes",
-        items=concrete_class_sidebar_items,
-    )
-    sidebar_writer.write(f"{SPACE}{concrete_class_category}")
-    sidebar_writer.write(", \n")
-    # write enumeration_sidebar_items
-    enumeration_category = _write_sidebar_category(
-        docs_ctx=docs_ctx, label="Enumerations", items=enumeration_sidebar_items
-    )
-    sidebar_writer.write(f"{SPACE}{enumeration_category}")
-    sidebar_writer.write(", \n")
-    # write constrained_primitive_sidebar_items
-    constrained_primitive_category = _write_sidebar_category(
-        docs_ctx=docs_ctx,
-        label="Constrained Primitives",
-        items=constrained_primitive_items,
-    )
-    sidebar_writer.write(f"{SPACE}{constrained_primitive_category}")
-
-    sidebar_writer.write("]\n")
-    # write to file
-    error = _write_to_sidebar_file(docs_ctx, sidebar_writer.getvalue())
-    if error is not None:
+def execute(docs_ctx: DocsContext, stdout: TextIO, stderr: TextIO) -> int:
+    if not docs_ctx.input_dir.exists():
+        stderr.write(f"The --input_dir does not exist: {docs_ctx.input_dir}\n")
         return 1
 
-    stdout.write(
-        f"Sidebar generated to: {docs_ctx.abs_sidebar_path()}. Add it to the index.js file for display."
-    )
-
-    return 0
-
-
-def _execute_for_version(docs_ctx: DocsCtx, stdout: TextIO, stderr: TextIO) -> int:
     model_file_path = (
         docs_ctx.input_dir / f"{docs_ctx.model_version}" / f"meta_model.py"
     )
@@ -634,31 +585,6 @@ def _execute_for_version(docs_ctx: DocsCtx, stdout: TextIO, stderr: TextIO) -> i
     )
 
 
-def execute(docs_ctx: DocsCtx, stdout: TextIO, stderr: TextIO) -> int:
-    if not docs_ctx.input_dir.exists():
-        stderr.write(f"The --input_dir does not exist: {docs_ctx.input_dir}\n")
-        return 1
-    # list the directory containing the models for different version
-    dir = os.listdir(docs_ctx.input_dir)
-    for model_version in dir:
-        # check if docs should be generated for a specific version
-        if docs_ctx.model_version is not None:
-            if model_version == docs_ctx.model_version:
-                return _execute_for_version(
-                    docs_ctx=docs_ctx, stdout=stdout, stderr=stderr
-                )
-        # if not iterate through all the found versions and generate them
-        else:
-            docs_ctx.model_version = model_version
-
-            code = _execute_for_version(docs_ctx=docs_ctx, stdout=stdout, stderr=stderr)
-
-            if code == 1:
-                return code
-
-    return 0
-
-
 def main(prog: str) -> int:
     parser = argparse.ArgumentParser(prog=prog, description=__doc__)
     parser.add_argument("--input_dir", help="path to the meta-model", required=True)
@@ -669,12 +595,14 @@ def main(prog: str) -> int:
         "--project_dir", help="path where the project lives", required=True
     )
     parser.add_argument(
-        "--model_version", help="version of the meta-model to generate the docs"
+        "--model_version",
+        help="version of the meta-model to generate the docs",
+        required=True,
     )
 
     args = parser.parse_args()
 
-    docs_ctx = DocsCtx(
+    docs_ctx = DocsContext(
         project_dir=pathlib.Path(args.project_dir),
         input_dir=pathlib.Path(args.input_dir),
         output_dir=pathlib.Path(args.output_dir),
