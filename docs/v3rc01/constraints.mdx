@@ -1,0 +1,184 @@
+---
+id: constraints-v3rc01
+title: Constraints
+sidebar_label: Constraints
+---
+
+## Constraint AASd-007
+
+If both, the Property/value and the Property/valueId are
+present then the value of Property/value needs to be identical to the value of
+the referenced coded value in Property/valueId.
+
+## Constraint AASd-012
+
+If both, the MultiLanguageProperty/value and the
+MultiLanguageProperty/valueId are present then for each string in a specific
+language the meaning must be the same as specified in
+MultiLanguageProperty/valueId.
+
+## Constraint AASd-051
+
+A ConceptDescription shall have one of the following
+categories:
+VALUE, PROPERTY, REFERENCE, DOCUMENT, CAPABILITY, RELATIONSHIP, COLLECTION,
+FUNCTION, EVENT, ENTITY, APPLICATION_CLASS, QUALIFIER, VIEW. Default: PROPERTY.
+
+## Constraint AASd-053
+
+If the semanticId of a Range submodel element references a
+ConceptDescription then the ConceptDescription/category shall be one of following
+values: PROPERTY.
+
+## Constraint AASd-054
+
+If the semanticId of a ReferenceElement submodel element
+references a ConceptDescription then the ConceptDescription/category shall be one of
+following values: REFERENCE.
+
+## Constraint AASd-055
+
+If the semanticId of a RelationshipElement or an
+AnnotatedRelationshipElement submodel element references a ConceptDescription then
+the ConceptDescription/category shall be one of following values: RELATIONSHIP.
+
+## Constraint AASd-056
+
+If the semanticId of a Entity submodel element
+references a ConceptDescription then the ConceptDescription/category shall
+be one of following values: ENTITY. The ConceptDescription describes the elements
+assigned to the entity via Entity/statement.
+
+## Constraint AASd-057
+
+The semanticId of a File or Blob submodel element shall only
+reference a ConceptDescription with the category DOCUMENT.
+
+## Constraint AASd-059
+
+If the semanticId of a SubmodelElementCollection references a
+ConceptDescription then the category of the ConceptDescription shall be COLLECTION
+or ENTITY.
+
+## Constraint AASd-060
+
+If the semanticId of a Operation submodel element
+references a ConceptDescription then the category of the ConceptDescription
+shall be one of the following values: FUNCTION.
+
+## Constraint AASd-064
+
+If the semanticId of a View references a ConceptDescription
+then the category of the ConceptDescription shall be VIEW.
+
+## Constraint AASd-065
+
+If the semanticId of a Property or MultiLanguageProperty
+references a ConceptDescription with the category VALUE then the value of the
+property is identical to DataSpecificationIEC61360/value and the valueId of the
+property is identical to DataSpecificationIEC61360/valueId.
+
+## Constraint AASd-066
+
+If the semanticId of a Property or MultiLanguageProperty
+references a ConceptDescription with the category PROPERTY and
+DataSpecificationIEC61360/valueList is defined the value and valueId of the
+property is identical to one of the value reference pair types references in the
+value list, i.e. ValueReferencePairType/value or ValueReferencePairType/valueId,
+resp.
+
+## Constraint AASd-067
+
+If the semanticId of a MultiLanguageProperty references a
+ConceptDescription then DataSpecificationIEC61360/dataType shall be
+STRING_TRANSLATABLE.
+
+## Constraint AASd-068
+
+If the semanticId of a Range submodel element references a
+ConceptDescription then DataSpecificationIEC61360/dataType shall be a numerical
+one, i.e. REAL*\* or RATIONAL*\*.
+
+## Constraint AASd-069
+
+If the semanticId of a Range references a ConceptDescription
+then DataSpecificationIEC61360/levelType shall be identical to the set {Min, Max}.
+
+## Constraint AASd-070
+
+For a ConceptDescription with category PROPERTY or VALUE using
+data specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/dataType is mandatory and shall be defined.
+
+## Constraint AASd-071
+
+For a ConceptDescription with category REFERENCE using data
+specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/dataType is STRING by default.
+
+## Constraint AASd-072
+
+For a ConceptDescription with category DOCUMENT using data
+specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/dataType shall be one of the following values: STRING or
+URL.
+
+## Constraint AASd-073
+
+For a ConceptDescription with category QUALIFIER using data
+specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/dataType is mandatory and shall be defined.
+
+## Constraint AASd-074
+
+For all ConceptDescriptions except for ConceptDescriptions of
+category VALUE using data specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/definition is mandatory and shall be defined at least in
+English.
+
+## Constraint AASd-075
+
+For all ConceptDescriptions using data specification template
+IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0)
+values for the attributes not being marked as mandatory or optional in tables
+Table 7, Table 8, Table 9 and Table 10.depending on its category are ignored and
+handled as undefined.
+
+## Constraint AASd-077
+
+The name of an extension within HasExtensions needs to be
+unique.
+
+## Constraint AASd-080
+
+In case Key/type == GlobalReference idType shall not be any
+LocalKeyType (IdShort, FragmentId).
+
+## Constraint AASd-081
+
+In case Key/type==AssetAdministrationShell Key/idType shall
+not be any LocalKeyType (IdShort, FragmentId).
+
+## Constraint AASd-090
+
+For data elements DataElement/category shall be one of the
+following values: CONSTANT, PARAMETER or VARIABLE.
+Exception: File and Blob data elements.
+
+## Constraint AASd-092
+
+If the semanticId of a SubmodelElementCollection with
+SubmodelElementCollection/allowDuplicates == false references a ConceptDescription
+then the ConceptDescription/category shall be ENTITY.
+
+## Constraint AASd-093
+
+If the semanticId of a SubmodelElementCollection with
+SubmodelElementCollection/allowDuplicates == true references a ConceptDescription
+then the ConceptDescription/category shall be COLLECTION.

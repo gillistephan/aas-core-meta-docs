@@ -1,0 +1,118 @@
+---
+id: concept-description-v3rc01
+title: ConceptDescription
+sidebar_label: ConceptDescription
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "DataSpecifications",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+    {
+      displayName: "Extension",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Extension",
+        to: "extension-v3rc01",
+      },
+    },
+    {
+      displayName: "IdShort",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "DisplayName",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Category",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "Description",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Administration",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "AdministrativeInformation",
+        to: "administrative-information-v3rc01",
+      },
+    },
+    {
+      displayName: "Identification",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Identifier",
+        to: "identifier-v3rc01",
+      },
+    },
+    {
+      displayName: "IsCaseOf",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "Environment",
+      to: "environment-v3rc01",
+      props: ["ConceptDescriptions"],
+    },
+  ]}
+/>

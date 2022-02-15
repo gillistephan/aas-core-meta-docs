@@ -1,32 +1,162 @@
 ---
-
 id: reference-v3rc01
 title: Reference
 sidebar_label: Reference
----Reference to either a model element of the same or another AAs or to an external
-entity.
+---
 
-<p>
-  A reference is an ordered list of keys, each key referencing an element. The
-  complete list of keys may for example be concatenated to a path that then
-  gives unique access to an element or entity.
-</p>
-
-import PropertiesList from "../../../src/components/PropertiesList";
+import PropertiesList from "@site/src/components/PropertiesList";
 
 ## Properties
 
 <PropertiesList
   items={[
     {
-      name: "Keys",
-      isRequired: true,
+      displayName: "Keys",
+      isRequired: false,
       typeDef: {
         type: "Class",
         isList: true,
         displayName: "Key",
         to: "key-v3rc01",
       },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "HasSemantics",
+      to: "has-semantics-v3rc01",
+      props: ["SemanticId"],
+    },
+    {
+      displayName: "Extension",
+      to: "extension-v3rc01",
+      props: ["SemanticId", "RefersTo"],
+    },
+    {
+      displayName: "Qualifier",
+      to: "qualifier-v3rc01",
+      props: ["SemanticId", "ValueId"],
+    },
+    {
+      displayName: "AssetAdministrationShell",
+      to: "asset-administration-shell-v3rc01",
+      props: ["DerivedFrom"],
+    },
+    {
+      displayName: "AssetInformation",
+      to: "asset-information-v3rc01",
+      props: ["GlobalAssetId"],
+    },
+    {
+      displayName: "IdentifierKeyValuePair",
+      to: "identifier-key-value-pair-v3rc01",
+      props: ["SemanticId", "ExternalSubjectId"],
+    },
+    { displayName: "Submodel", to: "submodel-v3rc01", props: ["SemanticId"] },
+    {
+      displayName: "SubmodelElement",
+      to: "submodel-element-v3rc01",
+      props: ["SemanticId"],
+    },
+    {
+      displayName: "RelationshipElement",
+      to: "relationship-element-v3rc01",
+      props: ["SemanticId", "First", "Second"],
+    },
+    {
+      displayName: "SubmodelElementCollection",
+      to: "submodel-element-collection-v3rc01",
+      props: ["SemanticId"],
+    },
+    {
+      displayName: "DataElement",
+      to: "data-element-v3rc01",
+      props: ["SemanticId"],
+    },
+    {
+      displayName: "Property",
+      to: "property-v3rc01",
+      props: ["SemanticId", "ValueId"],
+    },
+    {
+      displayName: "MultiLanguageProperty",
+      to: "multi-language-property-v3rc01",
+      props: ["SemanticId", "ValueId"],
+    },
+    { displayName: "Range", to: "range-v3rc01", props: ["SemanticId"] },
+    {
+      displayName: "ReferenceElement",
+      to: "reference-element-v3rc01",
+      props: ["SemanticId", "Value"],
+    },
+    { displayName: "Blob", to: "blob-v3rc01", props: ["SemanticId"] },
+    { displayName: "File", to: "file-v3rc01", props: ["SemanticId"] },
+    {
+      displayName: "AnnotatedRelationshipElement",
+      to: "annotated-relationship-element-v3rc01",
+      props: ["SemanticId", "First", "Second"],
+    },
+    {
+      displayName: "Entity",
+      to: "entity-v3rc01",
+      props: ["SemanticId", "GlobalAssetId"],
+    },
+    { displayName: "Event", to: "event-v3rc01", props: ["SemanticId"] },
+    {
+      displayName: "BasicEvent",
+      to: "basic-event-v3rc01",
+      props: ["SemanticId", "Observed"],
+    },
+    { displayName: "Operation", to: "operation-v3rc01", props: ["SemanticId"] },
+    {
+      displayName: "Capability",
+      to: "capability-v3rc01",
+      props: ["SemanticId"],
+    },
+    { displayName: "View", to: "view-v3rc01", props: ["SemanticId"] },
+    {
+      displayName: "ValueReferencePair",
+      to: "value-reference-pair-v3rc01",
+      props: ["ValueId"],
+    },
+    {
+      displayName: "DataSpecificationIec61360",
+      to: "data-specification-iec-61360-v3rc01",
+      props: ["UnitId", "ValueId"],
+    },
+    {
+      displayName: "ObjectAttributes",
+      to: "object-attributes-v3rc01",
+      props: ["ObjectAttributes"],
+    },
+    {
+      displayName: "Permission",
+      to: "permission-v3rc01",
+      props: ["Permission"],
+    },
+    {
+      displayName: "PermissionsPerObject",
+      to: "permissions-per-object-v3rc01",
+      props: ["Object"],
+    },
+    {
+      displayName: "AccessControl",
+      to: "access-control-v3rc01",
+      props: [
+        "SelectableSubjectAttributes",
+        "DefaultSubjectAttributes",
+        "SelectablePermissions",
+        "DefaultPermissions",
+        "SelectableEnvironmentAttributes",
+        "DefaultEnvironmentAttributes",
+      ],
     },
   ]}
 />

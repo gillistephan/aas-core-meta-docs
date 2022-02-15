@@ -1,0 +1,118 @@
+---
+id: data-element-v3rc01
+title: DataElement
+sidebar_label: DataElement
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "Extension",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Extension",
+        to: "extension-v3rc01",
+      },
+    },
+    {
+      displayName: "IdShort",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "DisplayName",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Category",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "Description",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Qualifiers",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Constraint",
+        to: "constraint-v3rc01",
+      },
+    },
+    {
+      displayName: "DataSpecifications",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+    {
+      displayName: "Kind",
+      isRequired: true,
+      typeDef: {
+        type: "Enumeration",
+        isList: false,
+        displayName: "ModelingKind",
+        to: "modeling-kind-v3rc01",
+      },
+    },
+    {
+      displayName: "SemanticId",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "SubjectAttributes",
+      to: "subject-attributes-v3rc01",
+      props: ["SubjectAttributes"],
+    },
+  ]}
+/>

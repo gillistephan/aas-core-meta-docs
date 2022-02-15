@@ -1,0 +1,58 @@
+---
+id: policy-administration-point-v3rc01
+title: PolicyAdministrationPoint
+sidebar_label: PolicyAdministrationPoint
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "ExternalAccessControl",
+      isRequired: false,
+      typeDef: {
+        type: "Primitive",
+        isList: false,
+        displayName: "boolean",
+        to: null,
+      },
+    },
+    {
+      displayName: "LocalAccessControl",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "AccessControl",
+        to: "access-control-v3rc01",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "Certificate",
+      to: "certificate-v3rc01",
+      props: ["PolicyAdministrationPoint"],
+    },
+    {
+      displayName: "BlobCertificate",
+      to: "blob-certificate-v3rc01",
+      props: ["PolicyAdministrationPoint"],
+    },
+    {
+      displayName: "AccessControlPolicyPoints",
+      to: "access-control-policy-points-v3rc01",
+      props: ["PolicyAdministrationPoint"],
+    },
+  ]}
+/>

@@ -1,0 +1,68 @@
+---
+id: access-control-policy-points-v3rc01
+title: AccessControlPolicyPoints
+sidebar_label: AccessControlPolicyPoints
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "PolicyAdministrationPoint",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "PolicyAdministrationPoint",
+        to: "policy-administration-point-v3rc01",
+      },
+    },
+    {
+      displayName: "PolicyDecisionPoint",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "PolicyDecisionPoint",
+        to: "policy-decision-point-v3rc01",
+      },
+    },
+    {
+      displayName: "PolicyEnforcementPoint",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "PolicyEnforcementPoints",
+        to: "policy-enforcement-points-v3rc01",
+      },
+    },
+    {
+      displayName: "PolicyInformationPoints",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "PolicyInformationPoints",
+        to: "policy-information-points-v3rc01",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "Security",
+      to: "security-v3rc01",
+      props: ["AccessControlPolicyPoints"],
+    },
+  ]}
+/>

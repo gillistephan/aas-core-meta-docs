@@ -1,19 +1,18 @@
 ---
-
 id: key-v3rc01
 title: Key
 sidebar_label: Key
----A key is a reference to an element by its id.
+---
 
-import PropertiesList from "../../../src/components/PropertiesList";
+import PropertiesList from "@site/src/components/PropertiesList";
 
 ## Properties
 
 <PropertiesList
   items={[
     {
-      name: "Type",
-      isRequired: true,
+      displayName: "Type",
+      isRequired: false,
       typeDef: {
         type: "Enumeration",
         isList: false,
@@ -22,18 +21,18 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Value",
-      isRequired: true,
+      displayName: "Value",
+      isRequired: false,
       typeDef: {
         type: "Primitive",
         isList: false,
-        displayName: "PrimitiveType.STR",
+        displayName: "string",
         to: null,
       },
     },
     {
-      name: "IdType",
-      isRequired: true,
+      displayName: "IdType",
+      isRequired: false,
       typeDef: {
         type: "Enumeration",
         isList: false,
@@ -41,5 +40,15 @@ import PropertiesList from "../../../src/components/PropertiesList";
         to: "key-type-v3rc01",
       },
     },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    { displayName: "Reference", to: "reference-v3rc01", props: ["Keys"] },
   ]}
 />

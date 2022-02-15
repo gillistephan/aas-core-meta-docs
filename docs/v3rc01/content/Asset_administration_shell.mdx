@@ -1,0 +1,158 @@
+---
+id: asset-administration-shell-v3rc01
+title: AssetAdministrationShell
+sidebar_label: AssetAdministrationShell
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "DataSpecifications",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+    {
+      displayName: "Extension",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Extension",
+        to: "extension-v3rc01",
+      },
+    },
+    {
+      displayName: "IdShort",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "DisplayName",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Category",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "Description",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Administration",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "AdministrativeInformation",
+        to: "administrative-information-v3rc01",
+      },
+    },
+    {
+      displayName: "Identification",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Identifier",
+        to: "identifier-v3rc01",
+      },
+    },
+    {
+      displayName: "DerivedFrom",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+    {
+      displayName: "Security",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Security",
+        to: "security-v3rc01",
+      },
+    },
+    {
+      displayName: "AssetInformation",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "AssetInformation",
+        to: "asset-information-v3rc01",
+      },
+    },
+    {
+      displayName: "Submodels",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+    {
+      displayName: "Views",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "View",
+        to: "view-v3rc01",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "Environment",
+      to: "environment-v3rc01",
+      props: ["AssetAdministrationShells"],
+    },
+  ]}
+/>

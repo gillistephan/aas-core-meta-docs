@@ -1,0 +1,78 @@
+---
+id: asset-information-v3rc01
+title: AssetInformation
+sidebar_label: AssetInformation
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "AssetKind",
+      isRequired: false,
+      typeDef: {
+        type: "Enumeration",
+        isList: false,
+        displayName: "AssetKind",
+        to: "asset-kind-v3rc01",
+      },
+    },
+    {
+      displayName: "GlobalAssetId",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+    {
+      displayName: "SpecificAssetIds",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "IdentifierKeyValuePair",
+        to: "identifier-key-value-pair-v3rc01",
+      },
+    },
+    {
+      displayName: "BillOfMaterial",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+    {
+      displayName: "DefaultThumbnail",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "File",
+        to: "file-v3rc01",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "AssetAdministrationShell",
+      to: "asset-administration-shell-v3rc01",
+      props: ["AssetInformation"],
+    },
+  ]}
+/>

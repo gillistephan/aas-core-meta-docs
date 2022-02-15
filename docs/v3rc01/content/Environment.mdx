@@ -1,19 +1,18 @@
 ---
-
 id: environment-v3rc01
 title: Environment
 sidebar_label: Environment
----Model the environment as the entry point for referencing and serialization.
+---
 
-import PropertiesList from "../../../src/components/PropertiesList";
+import PropertiesList from "@site/src/components/PropertiesList";
 
 ## Properties
 
 <PropertiesList
   items={[
     {
-      name: "AssetAdministrationShells",
-      isRequired: true,
+      displayName: "AssetAdministrationShells",
+      isRequired: false,
       typeDef: {
         type: "Class",
         isList: true,
@@ -22,8 +21,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Assets",
-      isRequired: true,
+      displayName: "Assets",
+      isRequired: false,
       typeDef: {
         type: "Class",
         isList: true,
@@ -32,8 +31,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Submodels",
-      isRequired: true,
+      displayName: "Submodels",
+      isRequired: false,
       typeDef: {
         type: "Class",
         isList: true,
@@ -42,8 +41,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "ConceptDescriptions",
-      isRequired: true,
+      displayName: "ConceptDescriptions",
+      isRequired: false,
       typeDef: {
         type: "Class",
         isList: true,
@@ -52,4 +51,4 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
   ]}
-/>
+/>{" "}

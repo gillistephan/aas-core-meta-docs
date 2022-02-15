@@ -1,20 +1,18 @@
 ---
-
 id: qualifier-v3rc01
 title: Qualifier
 sidebar_label: Qualifier
----A qualifier is a type-value-pair that makes additional statements w.r.t. the value
-of the element.
+---
 
-import PropertiesList from "../../../src/components/PropertiesList";
+import PropertiesList from "@site/src/components/PropertiesList";
 
 ## Properties
 
 <PropertiesList
   items={[
     {
-      name: "SemanticId",
-      isRequired: false,
+      displayName: "SemanticId",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -23,8 +21,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Type",
-      isRequired: true,
+      displayName: "Type",
+      isRequired: false,
       typeDef: {
         type: "ConstrainedPrimitive",
         isList: false,
@@ -33,8 +31,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "ValueType",
-      isRequired: true,
+      displayName: "ValueType",
+      isRequired: false,
       typeDef: {
         type: "Enumeration",
         isList: false,
@@ -43,8 +41,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Value",
-      isRequired: false,
+      displayName: "Value",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -53,8 +51,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "ValueId",
-      isRequired: false,
+      displayName: "ValueId",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -63,4 +61,4 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
   ]}
-/>
+/>{" "}

@@ -1,0 +1,38 @@
+---
+id: subject-attributes-v3rc01
+title: SubjectAttributes
+sidebar_label: SubjectAttributes
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "SubjectAttributes",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "DataElement",
+        to: "data-element-v3rc01",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "AccessPermissionRule",
+      to: "access-permission-rule-v3rc01",
+      props: ["TargetSubjectAttributes"],
+    },
+  ]}
+/>

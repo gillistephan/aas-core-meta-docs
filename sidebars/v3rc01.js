@@ -1,5 +1,6 @@
 module.exports = [
   "v3rc01/overview-v3rc01",
+  "v3rc01/constraints-v3rc01",
   {
     type: "category",
     label: "Abstract Classes",
@@ -77,6 +78,15 @@ module.exports = [
   },
   {
     type: "category",
+    label: "Constrained Primitives",
+    collapsed: true,
+    items: [
+      "v3rc01/content/mime-typed-v3rc01",
+      "v3rc01/content/non-empty-string-v3rc01",
+    ],
+  },
+  {
+    type: "category",
     label: "Enumerations",
     collapsed: true,
     items: [
@@ -93,15 +103,6 @@ module.exports = [
       "v3rc01/content/modeling-kind-v3rc01",
       "v3rc01/content/permission-kind-v3rc01",
       "v3rc01/content/referable-elements-v3rc01",
-    ],
-  },
-  {
-    type: "category",
-    label: "Constrained Primitives",
-    collapsed: true,
-    items: [
-      "v3rc01/content/mime-typed-v3rc01",
-      "v3rc01/content/non-empty-string-v3rc01",
     ],
   },
 ];

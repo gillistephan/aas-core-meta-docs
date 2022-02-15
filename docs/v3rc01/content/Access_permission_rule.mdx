@@ -1,0 +1,94 @@
+---
+id: access-permission-rule-v3rc01
+title: AccessPermissionRule
+sidebar_label: AccessPermissionRule
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "Extension",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Extension",
+        to: "extension-v3rc01",
+      },
+    },
+    {
+      displayName: "IdShort",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "DisplayName",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Category",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "Description",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Qualifiers",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Constraint",
+        to: "constraint-v3rc01",
+      },
+    },
+    {
+      displayName: "TargetSubjectAttributes",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "SubjectAttributes",
+        to: "subject-attributes-v3rc01",
+      },
+    },
+    {
+      displayName: "PermissionsPerObject",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "PermissionsPerObject",
+        to: "permissions-per-object-v3rc01",
+      },
+    },
+  ]}
+/>{" "}

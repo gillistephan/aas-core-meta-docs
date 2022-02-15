@@ -1,47 +1,18 @@
 ---
-
 id: property-v3rc01
 title: Property
 sidebar_label: Property
----A property is a data element that has a single value.
+---
 
-<div>
-  <p>
-    Constraint AASd-007: If both, the Property/value and the Property/valueId
-    are present then the value of Property/value needs to be identical to the
-    value of the referenced coded value in Property/valueId.
-  </p>
-  <p>
-    Constraint AASd-052a: If the semanticId of a Property references a
-    ConceptDescription then the ConceptDescription/category shall be one of
-    following values: VALUE, PROPERTY.
-  </p>
-  <p>
-    Constraint AASd-065: If the semanticId of a Property or
-    MultiLanguageProperty references a ConceptDescription with the category
-    VALUE then the value of the property is identical to
-    DataSpecificationIEC61360/value and the valueId of the property is identical
-    to DataSpecificationIEC61360/valueId.
-  </p>
-  <p>
-    Constraint AASd-066: If the semanticId of a Property or
-    MultiLanguageProperty references a ConceptDescription with the category
-    PROPERTY and DataSpecificationIEC61360/valueList is defined the value and
-    valueId of the property is identical to one of the value reference pair
-    types references in the value list, i.e. ValueReferencePairType/value or
-    ValueReferencePairType/valueId, resp.
-  </p>
-</div>
-
-import PropertiesList from "../../../src/components/PropertiesList";
+import PropertiesList from "@site/src/components/PropertiesList";
 
 ## Properties
 
 <PropertiesList
   items={[
     {
-      name: "Extension",
-      isRequired: false,
+      displayName: "Extension",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -50,7 +21,27 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "IdShort",
+      displayName: "IdShort",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "DisplayName",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Category",
       isRequired: true,
       typeDef: {
         type: "ConstrainedPrimitive",
@@ -60,8 +51,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "DisplayName",
-      isRequired: false,
+      displayName: "Description",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -70,28 +61,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Category",
-      isRequired: false,
-      typeDef: {
-        type: "ConstrainedPrimitive",
-        isList: false,
-        displayName: "NonEmptyString",
-        to: "non-empty-string-v3rc01",
-      },
-    },
-    {
-      name: "Description",
-      isRequired: false,
-      typeDef: {
-        type: "Class",
-        isList: false,
-        displayName: "LangStringSet",
-        to: "lang-string-set-v3rc01",
-      },
-    },
-    {
-      name: "Qualifiers",
-      isRequired: false,
+      displayName: "Qualifiers",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: true,
@@ -100,8 +71,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "DataSpecifications",
-      isRequired: false,
+      displayName: "DataSpecifications",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: true,
@@ -110,8 +81,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Kind",
-      isRequired: false,
+      displayName: "Kind",
+      isRequired: true,
       typeDef: {
         type: "Enumeration",
         isList: false,
@@ -120,8 +91,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "SemanticId",
-      isRequired: false,
+      displayName: "SemanticId",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -130,8 +101,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "ValueType",
-      isRequired: true,
+      displayName: "ValueType",
+      isRequired: false,
       typeDef: {
         type: "Enumeration",
         isList: false,
@@ -140,8 +111,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Value",
-      isRequired: false,
+      displayName: "Value",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -150,8 +121,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "ValueId",
-      isRequired: false,
+      displayName: "ValueId",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -160,4 +131,4 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
   ]}
-/>
+/>{" "}

@@ -1,0 +1,44 @@
+---
+id: permissions-per-object-v3rc01
+title: PermissionsPerObject
+sidebar_label: PermissionsPerObject
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "Object",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+    {
+      displayName: "TargetObjectAttributes",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "ObjectAttributes",
+        to: "object-attributes-v3rc01",
+      },
+    },
+    {
+      displayName: "Permissions",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Permission",
+        to: "permission-v3rc01",
+      },
+    },
+  ]}
+/>{" "}

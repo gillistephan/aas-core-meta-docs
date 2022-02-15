@@ -1,26 +1,18 @@
 ---
-
 id: submodel-v3rc01
 title: Submodel
 sidebar_label: Submodel
----A submodel defines a specific aspect of the asset represented by the AAS.
+---
 
-<p>
-  A submodel is used to structure the digital representation and technical
-  functionality of an Administration Shell into distinguishable parts. Each
-  submodel refers to a well-defined domain or subject matter. Submodels can
-  become standardized and, thus, become submodels templates.
-</p>
-
-import PropertiesList from "../../../src/components/PropertiesList";
+import PropertiesList from "@site/src/components/PropertiesList";
 
 ## Properties
 
 <PropertiesList
   items={[
     {
-      name: "Qualifiers",
-      isRequired: false,
+      displayName: "Qualifiers",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: true,
@@ -29,8 +21,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "DataSpecifications",
-      isRequired: false,
+      displayName: "DataSpecifications",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: true,
@@ -39,8 +31,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Kind",
-      isRequired: false,
+      displayName: "Kind",
+      isRequired: true,
       typeDef: {
         type: "Enumeration",
         isList: false,
@@ -49,8 +41,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "SemanticId",
-      isRequired: false,
+      displayName: "SemanticId",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -59,8 +51,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Extension",
-      isRequired: false,
+      displayName: "Extension",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -69,7 +61,27 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "IdShort",
+      displayName: "IdShort",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "DisplayName",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Category",
       isRequired: true,
       typeDef: {
         type: "ConstrainedPrimitive",
@@ -79,8 +91,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "DisplayName",
-      isRequired: false,
+      displayName: "Description",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -89,28 +101,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Category",
-      isRequired: false,
-      typeDef: {
-        type: "ConstrainedPrimitive",
-        isList: false,
-        displayName: "NonEmptyString",
-        to: "non-empty-string-v3rc01",
-      },
-    },
-    {
-      name: "Description",
-      isRequired: false,
-      typeDef: {
-        type: "Class",
-        isList: false,
-        displayName: "LangStringSet",
-        to: "lang-string-set-v3rc01",
-      },
-    },
-    {
-      name: "Administration",
-      isRequired: false,
+      displayName: "Administration",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -119,8 +111,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Identification",
-      isRequired: true,
+      displayName: "Identification",
+      isRequired: false,
       typeDef: {
         type: "Class",
         isList: false,
@@ -129,14 +121,28 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "SubmodelElements",
-      isRequired: false,
+      displayName: "SubmodelElements",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: true,
         displayName: "SubmodelElement",
         to: "submodel-element-v3rc01",
       },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "Environment",
+      to: "environment-v3rc01",
+      props: ["Submodels"],
     },
   ]}
 />

@@ -1,0 +1,38 @@
+---
+id: value-list-v3rc01
+title: ValueList
+sidebar_label: ValueList
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "ValueReferencePairTypes",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "ValueReferencePair",
+        to: "value-reference-pair-v3rc01",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "DataSpecificationIec61360",
+      to: "data-specification-iec-61360-v3rc01",
+      props: ["ValueList"],
+    },
+  ]}
+/>

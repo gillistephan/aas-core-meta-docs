@@ -1,0 +1,48 @@
+---
+id: policy-information-points-v3rc01
+title: PolicyInformationPoints
+sidebar_label: PolicyInformationPoints
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "ExternalInformationPoints",
+      isRequired: false,
+      typeDef: {
+        type: "Primitive",
+        isList: false,
+        displayName: "boolean",
+        to: null,
+      },
+    },
+    {
+      displayName: "InternalInformationPoints",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc01",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "AccessControlPolicyPoints",
+      to: "access-control-policy-points-v3rc01",
+      props: ["PolicyInformationPoints"],
+    },
+  ]}
+/>

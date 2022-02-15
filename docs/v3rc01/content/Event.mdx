@@ -4,17 +4,15 @@ title: Event
 sidebar_label: Event
 ---
 
-An event.
-
-import PropertiesList from "../../../src/components/PropertiesList";
+import PropertiesList from "@site/src/components/PropertiesList";
 
 ## Properties
 
 <PropertiesList
   items={[
     {
-      name: "Extension",
-      isRequired: false,
+      displayName: "Extension",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -23,7 +21,27 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "IdShort",
+      displayName: "IdShort",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc01",
+      },
+    },
+    {
+      displayName: "DisplayName",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc01",
+      },
+    },
+    {
+      displayName: "Category",
       isRequired: true,
       typeDef: {
         type: "ConstrainedPrimitive",
@@ -33,8 +51,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "DisplayName",
-      isRequired: false,
+      displayName: "Description",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -43,28 +61,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Category",
-      isRequired: false,
-      typeDef: {
-        type: "ConstrainedPrimitive",
-        isList: false,
-        displayName: "NonEmptyString",
-        to: "non-empty-string-v3rc01",
-      },
-    },
-    {
-      name: "Description",
-      isRequired: false,
-      typeDef: {
-        type: "Class",
-        isList: false,
-        displayName: "LangStringSet",
-        to: "lang-string-set-v3rc01",
-      },
-    },
-    {
-      name: "Qualifiers",
-      isRequired: false,
+      displayName: "Qualifiers",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: true,
@@ -73,8 +71,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "DataSpecifications",
-      isRequired: false,
+      displayName: "DataSpecifications",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: true,
@@ -83,8 +81,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Kind",
-      isRequired: false,
+      displayName: "Kind",
+      isRequired: true,
       typeDef: {
         type: "Enumeration",
         isList: false,
@@ -93,8 +91,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "SemanticId",
-      isRequired: false,
+      displayName: "SemanticId",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -103,4 +101,4 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
   ]}
-/>
+/>{" "}

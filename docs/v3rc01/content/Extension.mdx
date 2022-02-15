@@ -1,19 +1,18 @@
 ---
-
 id: extension-v3rc01
 title: Extension
 sidebar_label: Extension
----Single extension of an element.
+---
 
-import PropertiesList from "../../../src/components/PropertiesList";
+import PropertiesList from "@site/src/components/PropertiesList";
 
 ## Properties
 
 <PropertiesList
   items={[
     {
-      name: "SemanticId",
-      isRequired: false,
+      displayName: "SemanticId",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -22,8 +21,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Name",
-      isRequired: true,
+      displayName: "Name",
+      isRequired: false,
       typeDef: {
         type: "ConstrainedPrimitive",
         isList: false,
@@ -32,8 +31,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "ValueType",
-      isRequired: false,
+      displayName: "ValueType",
+      isRequired: true,
       typeDef: {
         type: "Enumeration",
         isList: false,
@@ -42,8 +41,8 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "Value",
-      isRequired: false,
+      displayName: "Value",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
@@ -52,14 +51,104 @@ import PropertiesList from "../../../src/components/PropertiesList";
       },
     },
     {
-      name: "RefersTo",
-      isRequired: false,
+      displayName: "RefersTo",
+      isRequired: true,
       typeDef: {
         type: "Class",
         isList: false,
         displayName: "Reference",
         to: "reference-v3rc01",
       },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "HasExtensions",
+      to: "has-extensions-v3rc01",
+      props: ["Extension"],
+    },
+    { displayName: "Referable", to: "referable-v3rc01", props: ["Extension"] },
+    {
+      displayName: "Identifiable",
+      to: "identifiable-v3rc01",
+      props: ["Extension"],
+    },
+    {
+      displayName: "AssetAdministrationShell",
+      to: "asset-administration-shell-v3rc01",
+      props: ["Extension"],
+    },
+    { displayName: "Asset", to: "asset-v3rc01", props: ["Extension"] },
+    { displayName: "Submodel", to: "submodel-v3rc01", props: ["Extension"] },
+    {
+      displayName: "SubmodelElement",
+      to: "submodel-element-v3rc01",
+      props: ["Extension"],
+    },
+    {
+      displayName: "RelationshipElement",
+      to: "relationship-element-v3rc01",
+      props: ["Extension"],
+    },
+    {
+      displayName: "SubmodelElementCollection",
+      to: "submodel-element-collection-v3rc01",
+      props: ["Extension"],
+    },
+    {
+      displayName: "DataElement",
+      to: "data-element-v3rc01",
+      props: ["Extension"],
+    },
+    { displayName: "Property", to: "property-v3rc01", props: ["Extension"] },
+    {
+      displayName: "MultiLanguageProperty",
+      to: "multi-language-property-v3rc01",
+      props: ["Extension"],
+    },
+    { displayName: "Range", to: "range-v3rc01", props: ["Extension"] },
+    {
+      displayName: "ReferenceElement",
+      to: "reference-element-v3rc01",
+      props: ["Extension"],
+    },
+    { displayName: "Blob", to: "blob-v3rc01", props: ["Extension"] },
+    { displayName: "File", to: "file-v3rc01", props: ["Extension"] },
+    {
+      displayName: "AnnotatedRelationshipElement",
+      to: "annotated-relationship-element-v3rc01",
+      props: ["Extension"],
+    },
+    { displayName: "Entity", to: "entity-v3rc01", props: ["Extension"] },
+    { displayName: "Event", to: "event-v3rc01", props: ["Extension"] },
+    {
+      displayName: "BasicEvent",
+      to: "basic-event-v3rc01",
+      props: ["Extension"],
+    },
+    { displayName: "Operation", to: "operation-v3rc01", props: ["Extension"] },
+    {
+      displayName: "Capability",
+      to: "capability-v3rc01",
+      props: ["Extension"],
+    },
+    {
+      displayName: "ConceptDescription",
+      to: "concept-description-v3rc01",
+      props: ["Extension"],
+    },
+    { displayName: "View", to: "view-v3rc01", props: ["Extension"] },
+    {
+      displayName: "AccessPermissionRule",
+      to: "access-permission-rule-v3rc01",
+      props: ["Extension"],
     },
   ]}
 />
