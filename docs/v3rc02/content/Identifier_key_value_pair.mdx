@@ -1,0 +1,69 @@
+---
+id: identifier-key-value-pair-v3rc02
+title: IdentifierKeyValuePair
+sidebar_label: IdentifierKeyValuePair
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "SemanticId",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+    {
+      displayName: "Key",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "Value",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "ExternalSubjectId",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "AssetInformation",
+      to: "asset-information-v3rc02",
+      props: ["SpecificAssetId"],
+    },
+    { displayName: "Entity", to: "entity-v3rc02", props: ["SpecificAssetId"] },
+  ]}
+/>

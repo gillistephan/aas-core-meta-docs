@@ -1,0 +1,48 @@
+---
+id: value-reference-pair-v3rc02
+title: ValueReferencePair
+sidebar_label: ValueReferencePair
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "Value",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "ValueId",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "ValueList",
+      to: "value-list-v3rc02",
+      props: ["ValueReferencePairs"],
+    },
+  ]}
+/>

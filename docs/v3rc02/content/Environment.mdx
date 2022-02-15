@@ -1,0 +1,44 @@
+---
+id: environment-v3rc02
+title: Environment
+sidebar_label: Environment
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "AssetAdministrationShells",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "AssetAdministrationShell",
+        to: "asset-administration-shell-v3rc02",
+      },
+    },
+    {
+      displayName: "Submodels",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Submodel",
+        to: "submodel-v3rc02",
+      },
+    },
+    {
+      displayName: "ConceptDescriptions",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "ConceptDescription",
+        to: "concept-description-v3rc02",
+      },
+    },
+  ]}
+/>{" "}

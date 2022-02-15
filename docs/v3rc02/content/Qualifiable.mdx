@@ -1,0 +1,24 @@
+---
+id: qualifiable-v3rc02
+title: Qualifiable
+sidebar_label: Qualifiable
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "Qualifiers",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Constraint",
+        to: "constraint-v3rc02",
+      },
+    },
+  ]}
+/>{" "}

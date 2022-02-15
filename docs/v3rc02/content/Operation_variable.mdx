@@ -1,0 +1,38 @@
+---
+id: operation-variable-v3rc02
+title: OperationVariable
+sidebar_label: OperationVariable
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "Value",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "SubmodelElement",
+        to: "submodel-element-v3rc02",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "Operation",
+      to: "operation-v3rc02",
+      props: ["InputVariables", "OutputVariables", "InoutputVariables"],
+    },
+  ]}
+/>

@@ -1,0 +1,73 @@
+---
+id: administrative-information-v3rc02
+title: AdministrativeInformation
+sidebar_label: AdministrativeInformation
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "DataSpecifications",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+    {
+      displayName: "Version",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "Revision",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+  ]}
+/>{" "}
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "Identifiable",
+      to: "identifiable-v3rc02",
+      props: ["Administration"],
+    },
+    {
+      displayName: "AssetAdministrationShell",
+      to: "asset-administration-shell-v3rc02",
+      props: ["Administration"],
+    },
+    {
+      displayName: "Submodel",
+      to: "submodel-v3rc02",
+      props: ["Administration"],
+    },
+    {
+      displayName: "ConceptDescription",
+      to: "concept-description-v3rc02",
+      props: ["Administration"],
+    },
+  ]}
+/>

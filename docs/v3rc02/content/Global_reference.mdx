@@ -1,0 +1,24 @@
+---
+id: global-reference-v3rc02
+title: GlobalReference
+sidebar_label: GlobalReference
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "Values",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: true,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+  ]}
+/>{" "}

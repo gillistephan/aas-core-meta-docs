@@ -1,0 +1,134 @@
+---
+id: data-specification-physical-unit-v3rc02
+title: DataSpecificationPhysicalUnit
+sidebar_label: DataSpecificationPhysicalUnit
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "UnitName",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "UnitSymbol",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "Definition",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc02",
+      },
+    },
+    {
+      displayName: "SiNotation",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "DinNotation",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "EceName",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "EceCode",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "NistName",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "SourceOfDefinition",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "ConversionFactor",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "RegistrationAuthorityId",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "Supplier",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+  ]}
+/>{" "}

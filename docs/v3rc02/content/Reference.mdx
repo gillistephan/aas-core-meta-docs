@@ -1,0 +1,170 @@
+---
+id: reference-v3rc02
+title: Reference
+sidebar_label: Reference
+---
+
+import UsageList from "@site/src/components/UsageList";
+
+## Usages
+
+<UsageList
+  items={[
+    {
+      displayName: "HasSemantics",
+      to: "has-semantics-v3rc02",
+      props: ["SemanticId"],
+    },
+    {
+      displayName: "Extension",
+      to: "extension-v3rc02",
+      props: ["SemanticId", "RefersTo"],
+    },
+    {
+      displayName: "HasDataSpecification",
+      to: "has-data-specification-v3rc02",
+      props: ["DataSpecifications"],
+    },
+    {
+      displayName: "AdministrativeInformation",
+      to: "administrative-information-v3rc02",
+      props: ["DataSpecifications"],
+    },
+    {
+      displayName: "Qualifier",
+      to: "qualifier-v3rc02",
+      props: ["SemanticId", "ValueId"],
+    },
+    { displayName: "Formula", to: "formula-v3rc02", props: ["DependsOn"] },
+    {
+      displayName: "AssetAdministrationShell",
+      to: "asset-administration-shell-v3rc02",
+      props: ["DataSpecifications", "DerivedFrom", "Submodels"],
+    },
+    {
+      displayName: "AssetInformation",
+      to: "asset-information-v3rc02",
+      props: ["GlobalAssetId"],
+    },
+    {
+      displayName: "IdentifierKeyValuePair",
+      to: "identifier-key-value-pair-v3rc02",
+      props: ["SemanticId", "ExternalSubjectId"],
+    },
+    {
+      displayName: "Submodel",
+      to: "submodel-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "SubmodelElement",
+      to: "submodel-element-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "RelationshipElement",
+      to: "relationship-element-v3rc02",
+      props: ["DataSpecifications", "SemanticId", "First", "Second"],
+    },
+    {
+      displayName: "SubmodelElementList",
+      to: "submodel-element-list-v3rc02",
+      props: ["DataSpecifications", "SemanticId", "SemanticIdValues"],
+    },
+    {
+      displayName: "SubmodelElementStruct",
+      to: "submodel-element-struct-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "DataElement",
+      to: "data-element-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "Property",
+      to: "property-v3rc02",
+      props: ["DataSpecifications", "SemanticId", "ValueId"],
+    },
+    {
+      displayName: "MultiLanguageProperty",
+      to: "multi-language-property-v3rc02",
+      props: ["DataSpecifications", "SemanticId", "ValueId"],
+    },
+    {
+      displayName: "Range",
+      to: "range-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "ReferenceElement",
+      to: "reference-element-v3rc02",
+      props: ["DataSpecifications", "SemanticId", "Reference"],
+    },
+    {
+      displayName: "Blob",
+      to: "blob-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "File",
+      to: "file-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "AnnotatedRelationshipElement",
+      to: "annotated-relationship-element-v3rc02",
+      props: ["DataSpecifications", "SemanticId", "First", "Second"],
+    },
+    {
+      displayName: "Entity",
+      to: "entity-v3rc02",
+      props: ["DataSpecifications", "SemanticId", "GlobalAssetId"],
+    },
+    {
+      displayName: "Event",
+      to: "event-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "BasicEvent",
+      to: "basic-event-v3rc02",
+      props: ["DataSpecifications", "SemanticId", "Observed"],
+    },
+    {
+      displayName: "Operation",
+      to: "operation-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "Capability",
+      to: "capability-v3rc02",
+      props: ["DataSpecifications", "SemanticId"],
+    },
+    {
+      displayName: "ConceptDescription",
+      to: "concept-description-v3rc02",
+      props: ["DataSpecifications", "IsCaseOf"],
+    },
+    {
+      displayName: "View",
+      to: "view-v3rc02",
+      props: ["DataSpecifications", "SemanticId", "ContainedElements"],
+    },
+    {
+      displayName: "ModelReference",
+      to: "model-reference-v3rc02",
+      props: ["ReferredSemanticId"],
+    },
+    {
+      displayName: "ValueReferencePair",
+      to: "value-reference-pair-v3rc02",
+      props: ["ValueId"],
+    },
+    {
+      displayName: "DataSpecificationIec61360",
+      to: "data-specification-iec61360-v3rc02",
+      props: ["UnitId", "ValueId"],
+    },
+  ]}
+/>

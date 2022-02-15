@@ -1,0 +1,64 @@
+---
+id: qualifier-v3rc02
+title: Qualifier
+sidebar_label: Qualifier
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "SemanticId",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+    {
+      displayName: "Type",
+      isRequired: false,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "ValueType",
+      isRequired: false,
+      typeDef: {
+        type: "Enumeration",
+        isList: false,
+        displayName: "DataTypeDef",
+        to: "data-type-def-v3rc02",
+      },
+    },
+    {
+      displayName: "Value",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "ValueId",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+  ]}
+/>{" "}

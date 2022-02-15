@@ -1,0 +1,24 @@
+---
+id: formula-v3rc02
+title: Formula
+sidebar_label: Formula
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "DependsOn",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+  ]}
+/>{" "}

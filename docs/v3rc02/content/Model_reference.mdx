@@ -1,0 +1,34 @@
+---
+id: model-reference-v3rc02
+title: ModelReference
+sidebar_label: ModelReference
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "Keys",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Key",
+        to: "key-v3rc02",
+      },
+    },
+    {
+      displayName: "ReferredSemanticId",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+  ]}
+/>{" "}

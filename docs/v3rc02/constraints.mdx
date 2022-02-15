@@ -1,0 +1,274 @@
+---
+id: constraints-v3rc02
+title: Constraints
+sidebar_label: Constraints
+---
+
+## Constraint AASd-002
+
+idShort of Referables shall only feature letters, digits,
+underscore ("_"); starting mandatory with a letter. I.e. [a-zA-Z]a-zA-Z0-9_]+
+Exception: In case of direct submodel elements within a SubmodelElementList the
+idShort shall feature a sequence of digits representing an integer. I.e. [0] or
+[1-9][0-9]+.
+
+## Constraint AASd-003
+
+idShort shall be matched case-sensitive.
+
+## Constraint AASd-007
+
+If both, the Property/value and the Property/valueId are
+present then the value of Property/value needs to be identical to the value of
+the referenced coded value in Property/valueId.
+
+## Constraint AASd-012
+
+If both, the MultiLanguageProperty/value and the
+MultiLanguageProperty/valueId are present then for each string in a specific
+language the meaning must be the same as specified in
+MultiLanguageProperty/valueId.
+
+## Constraint AASd-014
+
+Either the attribute globalAssetId or specificAssetId of an
+Entity must be set if Entity/entityType is set to “SelfManagedEntity”. They are
+not existing otherwise.
+
+## Constraint AASd-022
+
+idShort of non-identifiable referables shall be unique in its
+namespace.
+
+## Constraint AASd-027
+
+idShort of Referables shall have a maximum length of 128
+characters.
+
+## Constraint AASd-051
+
+A ConceptDescription shall have one of the following categories
+VALUE, PROPERTY, REFERENCE, DOCUMENT, CAPABILITY, RELATIONSHIP, COLLECTION, FUNCTION
+, EVENT, ENTITY, APPLICATION_CLASS, QUALIFIER, VIEW. Default: PROPERTY.
+
+## Constraint AASd-053
+
+If the semanticId of a Range submodel element references a
+ConceptDescription then the ConceptDescription/category shall be one of following
+values: PROPERTY.
+
+## Constraint AASd-054
+
+If the semanticId of a ReferenceElement submodel element
+references a ConceptDescription then the ConceptDescription/category shall be one
+of following values: REFERENCE.
+
+## Constraint AASd-055
+
+If the semanticId of a RelationshipElement or an
+AnnotatedRelationshipElement submodel element references a ConceptDescription then
+the ConceptDescription/category shall be one of following values: RELATIONSHIP.
+
+## Constraint AASd-056
+
+If the semanticId of a Entity submodel element
+references a ConceptDescription then the ConceptDescription/category shall
+be one of following values: ENTITY. The ConceptDescription describes the elements
+assigned to the entity via Entity/statement.
+
+## Constraint AASd-057
+
+The semanticId of a File or Blob submodel element shall only
+reference a ConceptDescription with the category DOCUMENT.
+
+## Constraint AASd-058
+
+If the semanticId of a Capability submodel element references
+a ConceptDescription then the ConceptDescription/category shall be CAPABILITY.
+
+## Constraint AASd-060
+
+If the semanticId of a Operation submodel element
+references a ConceptDescription then the category of the ConceptDescription
+shall be one of the following values: FUNCTION.
+
+## Constraint AASd-061
+
+If the semanticId of a Event submodel element references a
+ConceptDescription then the category of the ConceptDescription shall be one of
+the following: EVENT.
+
+## Constraint AASd-064
+
+If the semanticId of a View references a ConceptDescription
+then the category of the ConceptDescription shall be VIEW.
+
+## Constraint AASd-065
+
+If the semanticId of a Property or MultiLanguageProperty
+references a ConceptDescription with the category VALUE then the value of the
+property is identical to DataSpecificationIEC61360/value and the valueId of the
+property is identical to DataSpecificationIEC61360/valueId.
+
+## Constraint AASd-066
+
+If the semanticId of a Property or MultiLanguageProperty
+references a ConceptDescription with the category PROPERTY and
+DataSpecificationIEC61360/valueList is defined the value and valueId of the
+property is identical to one of the value reference pair types references in the
+value list, i.e. ValueReferencePairType/value or ValueReferencePairType/valueId,
+resp.
+
+## Constraint AASd-067
+
+If the semanticId of a MultiLanguageProperty references a
+ConceptDescription then DataSpecificationIEC61360/dataType shall be
+STRING_TRANSLATABLE.
+
+## Constraint AASd-068
+
+If the semanticId of a Range submodel element references a
+ConceptDescription then DataSpecificationIEC61360/dataType shall be a numerical
+one, i.e. REAL*\* or RATIONAL*\*.
+
+## Constraint AASd-069
+
+If the semanticId of a Range references a ConceptDescription
+then DataSpecificationIEC61360/levelType shall be identical to the set {Min, Max}.
+
+## Constraint AASd-070
+
+For a ConceptDescription with category PROPERTY or VALUE using
+data specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/dataType is mandatory and shall be defined.
+
+## Constraint AASd-071
+
+For a ConceptDescription with category REFERENCE using data
+specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/dataType is STRING by default.
+
+## Constraint AASd-072
+
+For a ConceptDescription with category DOCUMENT using data
+specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/dataType shall be one of the following values: STRING or
+URL.
+
+## Constraint AASd-073
+
+For a ConceptDescription with category QUALIFIER using data
+specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/dataType is mandatory and shall be defined.
+
+## Constraint AASd-074
+
+For all ConceptDescriptions except for ConceptDescriptions of
+category VALUE using data specification template IEC61360
+(http://admin-shell.io/DataSpecificationTemplates/DataSpecificationIEC61360/2/0) -
+DataSpecificationIEC61360/definition is mandatory and shall be defined at least in
+English.
+
+## Constraint AASd-077
+
+The name of an extension within HasExtensions needs to be
+unique.
+
+## Constraint AASd-078
+
+If the valueId of a ValueReferencePair references a
+ConceptDescription then the ConceptDescription/category shall be one of following
+values: VALUE.
+
+## Constraint AASd-079
+
+If the semanticId of a File references a
+ConceptDescription then DataSpecificationIEC61360/dataType shall be one of: FILE.
+
+## Constraint AASd-082
+
+If the semanticId of a ReferenceElement references a
+ConceptDescription then DataSpecificationIEC61360/dataType shall be one of: STRING,
+IRI, IRDI.
+
+## Constraint AASd-083
+
+If the semanticId of a Blob references a ConceptDescription
+then DataSpecificationIEC61360/dataType shall be one of: BLOB, HTML.
+
+## Constraint AASd-090
+
+For data elements DataElement/category shall be one of the
+following values: CONSTANT, PARAMETER or VARIABLE.
+Exception: File and Blob data elements.
+
+## Constraint AASd-092
+
+If the semanticId of a SubmodelElementStruct references
+a ConceptDescription then the ConceptDescription/category shall be ENTITY.
+
+## Constraint AASd-093
+
+If the semanticId of a SubmodelElementList references
+a ConceptDescription then the ConceptDescription/category shall be COLLECTION.
+
+## Constraint AASd-101
+
+If DataSpecificationIEC61360/category equal to VALUE then
+DataSpecificationIEC61360/value shall be set.
+
+## Constraint AASd-102
+
+If DataSpecificationIEC61360/value or
+DataSpecificationIEC61360/valueId is not empty then
+DataSpecificationIEC61360/valueList shall be empty and vice versa.
+
+## Constraint AASd-103
+
+If DataSpecificationIEC61360/-dataType one of: INTEGER_MEASURE,
+REAL_MEASURE, RATIONAL_MEASURE, INTEGER_CURRENCY, REAL_CURRENCY, then
+DataSpecificationIEC61360/unit or DataSpecificationIEC61360/unitId shall be defined.
+
+## Constraint AASd-107
+
+If a first level child element in a SubmodelElementList has
+a semanticId it shall be identical to SubmodelElementList/semanticIdValues.
+
+## Constraint AASd-108
+
+All first level child elements in a SubmodelElementList shall
+have the same submodel element type as specified in
+SubmodelElementList/submodelElementTypeValues.
+
+## Constraint AASd-109
+
+If SubmodelElementList/submodelElementTypeValues equal to
+Property or Range SubmodelElementList/valueTypeValues shall be set and all first
+level child elements in the SubmodelElementList shall have the the value type
+as specified
+
+## Constraint AASd-114
+
+If two first level child elements in a SubmodelElementList have
+a semanticId then they shall be identical.
+
+## Constraint AASd-115
+
+If a first level child element in a SubmodelElementList does
+not specify a semanticId then the value is assumed to be identical to
+SubmodelElementList/semanticIdValues.
+
+## Constraint AASd-116
+
+“globalAssetId” (case-insensitive) is a reserved key. If used
+as value for IdentifierKeyValuePair/key IdentifierKeyValuePair/value shall be
+identical to AssetInformation/globalAssetId.
+
+## Constraint AASd-117
+
+For all Referables which are not Identifiables the idShort is
+mandatory.

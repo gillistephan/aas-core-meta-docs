@@ -1,0 +1,24 @@
+---
+id: has-data-specification-v3rc02
+title: HasDataSpecification
+sidebar_label: HasDataSpecification
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "DataSpecifications",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+  ]}
+/>{" "}

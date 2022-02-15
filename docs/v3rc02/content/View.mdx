@@ -1,0 +1,94 @@
+---
+id: view-v3rc02
+title: View
+sidebar_label: View
+---
+
+import PropertiesList from "@site/src/components/PropertiesList";
+
+## Properties
+
+<PropertiesList
+  items={[
+    {
+      displayName: "DataSpecifications",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+    {
+      displayName: "Extensions",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Extension",
+        to: "extension-v3rc02",
+      },
+    },
+    {
+      displayName: "IdShort",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "DisplayName",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc02",
+      },
+    },
+    {
+      displayName: "Category",
+      isRequired: true,
+      typeDef: {
+        type: "ConstrainedPrimitive",
+        isList: false,
+        displayName: "NonEmptyString",
+        to: "non-empty-string-v3rc02",
+      },
+    },
+    {
+      displayName: "Description",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "LangStringSet",
+        to: "lang-string-set-v3rc02",
+      },
+    },
+    {
+      displayName: "SemanticId",
+      isRequired: true,
+      typeDef: {
+        type: "Class",
+        isList: false,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+    {
+      displayName: "ContainedElements",
+      isRequired: false,
+      typeDef: {
+        type: "Class",
+        isList: true,
+        displayName: "Reference",
+        to: "reference-v3rc02",
+      },
+    },
+  ]}
+/>{" "}
