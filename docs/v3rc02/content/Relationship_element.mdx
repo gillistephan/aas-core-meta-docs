@@ -19,6 +19,10 @@ import PropertiesList from "@site/src/components/PropertiesList";
         displayName: "Reference",
         to: "reference-v3rc02",
       },
+      inheritedFrom: {
+        displayName: "HasDataSpecification",
+        to: "has-data-specification-v3rc02",
+      },
     },
     {
       displayName: "Extensions",
@@ -28,6 +32,10 @@ import PropertiesList from "@site/src/components/PropertiesList";
         isList: true,
         displayName: "Extension",
         to: "extension-v3rc02",
+      },
+      inheritedFrom: {
+        displayName: "HasExtensions",
+        to: "has-extensions-v3rc02",
       },
     },
     {
@@ -39,6 +47,7 @@ import PropertiesList from "@site/src/components/PropertiesList";
         displayName: "NonEmptyString",
         to: "non-empty-string-v3rc02",
       },
+      inheritedFrom: { displayName: "Referable", to: "referable-v3rc02" },
     },
     {
       displayName: "DisplayName",
@@ -49,6 +58,7 @@ import PropertiesList from "@site/src/components/PropertiesList";
         displayName: "LangStringSet",
         to: "lang-string-set-v3rc02",
       },
+      inheritedFrom: { displayName: "Referable", to: "referable-v3rc02" },
     },
     {
       displayName: "Category",
@@ -59,6 +69,7 @@ import PropertiesList from "@site/src/components/PropertiesList";
         displayName: "NonEmptyString",
         to: "non-empty-string-v3rc02",
       },
+      inheritedFrom: { displayName: "Referable", to: "referable-v3rc02" },
     },
     {
       displayName: "Description",
@@ -69,6 +80,7 @@ import PropertiesList from "@site/src/components/PropertiesList";
         displayName: "LangStringSet",
         to: "lang-string-set-v3rc02",
       },
+      inheritedFrom: { displayName: "Referable", to: "referable-v3rc02" },
     },
     {
       displayName: "Kind",
@@ -79,6 +91,7 @@ import PropertiesList from "@site/src/components/PropertiesList";
         displayName: "ModelingKind",
         to: "modeling-kind-v3rc02",
       },
+      inheritedFrom: { displayName: "HasKind", to: "has-kind-v3rc02" },
     },
     {
       displayName: "SemanticId",
@@ -88,6 +101,10 @@ import PropertiesList from "@site/src/components/PropertiesList";
         isList: false,
         displayName: "Reference",
         to: "reference-v3rc02",
+      },
+      inheritedFrom: {
+        displayName: "HasSemantics",
+        to: "has-semantics-v3rc02",
       },
     },
     {
@@ -99,6 +116,7 @@ import PropertiesList from "@site/src/components/PropertiesList";
         displayName: "Constraint",
         to: "constraint-v3rc02",
       },
+      inheritedFrom: { displayName: "Qualifiable", to: "qualifiable-v3rc02" },
     },
     {
       displayName: "First",
@@ -109,6 +127,7 @@ import PropertiesList from "@site/src/components/PropertiesList";
         displayName: "Reference",
         to: "reference-v3rc02",
       },
+      inheritedFrom: { displayName: "SELF", to: null },
     },
     {
       displayName: "Second",
@@ -119,6 +138,7 @@ import PropertiesList from "@site/src/components/PropertiesList";
         displayName: "Reference",
         to: "reference-v3rc02",
       },
+      inheritedFrom: { displayName: "SELF", to: null },
     },
   ]}
 />{" "}

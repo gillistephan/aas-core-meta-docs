@@ -136,10 +136,11 @@ class DocsElementPropTypeDef:
 
 
 class DocsElementProp:
-    def __init__(self, prop: intermediate.Property) -> None:
+    def __init__(self, cls_identifier: Identifier, prop: intermediate.Property) -> None:
         self.is_required = self._is_required(prop)
         self.display_name = self._display_name(prop)
         self.type_def = DocsElementPropTypeDef(prop)
+        self.inherited_from = self._inherited_from(cls_identifier, prop)
 
     def _is_required(self, prop: intermediate.Property) -> bool:
         if isinstance(prop.type_annotation, intermediate.OptionalTypeAnnotation):
@@ -150,13 +151,34 @@ class DocsElementProp:
     def _display_name(self, prop: intermediate.Property) -> str:
         return _to_capital_camel_case(prop.name)
 
+    def _inherited_from(
+        self, cls_identifier: Identifier, prop: intermediate.Property
+    ) -> Optional[Identifier]:
+        if prop.specified_for.name != cls_identifier:
+            return prop.specified_for.name
+        else:
+            return None
+
+    def _stringify_inherited_from(self, docs_ctx: "DocsContext") -> str:
+        to = None
+        display_name = "SELF"
+        if self.inherited_from is not None:
+            display_name = _to_capital_camel_case(self.inherited_from)
+            to = _document_id(docs_ctx, self.inherited_from)
+
+        return f"""{{ displayName: "{display_name}", to: {f'"{to}"' if to is not None else "null"} }}"""
+
     def stringify(self, docs_ctx: "DocsContext") -> Stripped:
         type_def = self.type_def.stringify(docs_ctx=docs_ctx)
-        return f"""{{ displayName: "{self.display_name}", isRequired: {"true" if self.is_required is True else "false"}, typeDef: {type_def} }}"""
+        inherited_from = self._stringify_inherited_from(docs_ctx)
+
+        return f"""{{ displayName: "{self.display_name}", isRequired: {"true" if self.is_required is True else "false"}, typeDef: {type_def}, inheritedFrom: {inherited_from}  }}"""
 
 
 class DocsElement:
     props = None  # type: List[DocsElementProp]
+    inheritances = []  # type: List[Identifier]
+    descendants = []  # type: List[Identifier]
 
     def __init__(
         self,
@@ -169,8 +191,14 @@ class DocsElement:
         self.document_id = document_id
         self.document_name = document_name
 
-    def add_prop(self, prop: intermediate.Property) -> None:
-        new_prop = DocsElementProp(prop)
+    def add_inheritance(self, inherit: intermediate.ClassUnion) -> None:
+        self.inheritances.append(inherit.name)
+
+    def add_descendant(self, desc: intermediate.ConcreteClass) -> None:
+        self.descendants.append(desc)
+
+    def add_prop(self, cls_identifier: Identifier, prop: intermediate.Property) -> None:
+        new_prop = DocsElementProp(cls_identifier, prop)
         self.props.append(new_prop)
 
     def _stringify_props(self, docs_ctx: "DocsContext") -> str:
@@ -268,6 +296,7 @@ class DocsContext:
         else:
             return False
 
+    # region sidebar #########################
     def _add_sidebar_item(self, category: str, document_id: str) -> None:
         exists = self.sidebar_items.get(category, None)
         if exists is None:
@@ -336,6 +365,8 @@ class DocsContext:
             document_name=document_name,
         )
 
+    # end region #########################
+
     def add_docs_element(self, symbol: intermediate.Symbol) -> None:
         identifier = _identifier_from_symbol(symbol)
         docs_element = self.docs_elements.get(identifier, None)
@@ -344,11 +375,14 @@ class DocsContext:
             docs_element = self._init_docs_element(symbol)
 
         if isinstance(symbol, intermediate.Class):
+            for inherit in symbol.inheritances:
+                docs_element.add_inheritance(inherit=inherit)
+
             if symbol.description is not None:
                 self.add_maybe_assd_constraint(symbol.description)
 
             for prop in symbol.properties:
-                docs_element.add_prop(prop)
+                docs_element.add_prop(identifier, prop)
                 if prop.description is not None:
                     self.add_maybe_assd_constraint(prop.description)
 
@@ -368,6 +402,7 @@ class DocsContext:
 
         return None
 
+    # region backwards_ref #########################
     def _add_backwards_ref(
         self, ref_identifier: Identifier, document_id: str, prop_name: Identifier
     ):
@@ -430,6 +465,8 @@ class DocsContext:
         writer.write("]} /> \n \n")
 
         return writer.getvalue()
+
+    # end region #########################
 
     def write_files(self, stdout: TextIO, stderr: TextIO) -> int:
         # write doc elements
